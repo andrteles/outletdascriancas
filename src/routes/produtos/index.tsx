@@ -36,7 +36,8 @@ const sortLabels: Record<SortOption, string> = {
 function ProductsPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
-  const results = filterProducts(search);
+  const faixaAtiva = search.faixa === "todas" ? undefined : (search.faixa ?? "Bebê");
+  const results = filterProducts({ ...search, faixa: faixaAtiva });
 
   function updateSearch(patch: Partial<typeof search>) {
     navigate({ search: { ...search, ...patch } });
@@ -60,10 +61,10 @@ function ProductsPage() {
             <div className="flex flex-col gap-1 text-sm">
               <button
                 type="button"
-                onClick={() => updateSearch({ faixa: undefined })}
+                onClick={() => updateSearch({ faixa: "todas" })}
                 className={cn(
                   "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
-                  !search.faixa && "bg-secondary font-semibold",
+                  !faixaAtiva && "bg-secondary font-semibold",
                 )}
               >
                 Todas
@@ -75,7 +76,7 @@ function ProductsPage() {
                   onClick={() => updateSearch({ faixa })}
                   className={cn(
                     "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
-                    search.faixa === faixa && "bg-secondary font-semibold",
+                    faixaAtiva === faixa && "bg-secondary font-semibold",
                   )}
                 >
                   {faixa}
