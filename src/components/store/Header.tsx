@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBag, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { categories } from "@/lib/products";
 import { useCart } from "@/lib/cart";
@@ -20,21 +20,8 @@ const announcements = [
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [announcementIndex, setAnnouncementIndex] = useState(0);
-  const [announcementVisible, setAnnouncementVisible] = useState(true);
   const navigate = useNavigate();
   const { itemCount, openCart } = useCart();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnnouncementVisible(false);
-      setTimeout(() => {
-        setAnnouncementIndex((index) => (index + 1) % announcements.length);
-        setAnnouncementVisible(true);
-      }, 500);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   function handleSearch(event: React.FormEvent) {
     event.preventDefault();
@@ -44,11 +31,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-background">
-      <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
-        <span
-          className={`inline-block transition-opacity duration-500 ease-in-out ${announcementVisible ? "opacity-100" : "opacity-0"}`}
-        >
-          {announcements[announcementIndex]}
+      <div className="relative overflow-hidden bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
+        <span className="invisible">{announcements[0]}</span>
+        <span className="animate-announcement absolute inset-0 flex items-center justify-center px-4">
+          {announcements[0]}
+        </span>
+        <span className="animate-announcement-delay absolute inset-0 flex items-center justify-center px-4">
+          {announcements[1]}
         </span>
       </div>
 
