@@ -90,7 +90,7 @@ export function CartDrawer() {
               <Button
                 asChild
                 size="lg"
-                className="w-full font-bold text-white uppercase"
+                className="w-full bg-[#3BAE8A] font-bold text-white uppercase hover:bg-[#3BAE8A]/90"
                 onClick={closeCart}
               >
                 <Link to="/carrinho">Finalizar compra</Link>
