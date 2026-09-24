@@ -55,8 +55,14 @@ export function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-muted-foreground md:flex-row">
           <p>© 2026 - Outlet</p>
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <p>Pagamento em até 12x no cartão</p>
+            <p>Pagamento no PIX ou em até 12x no cartão</p>
             <div className="flex items-center gap-1.5">
+              <span
+                aria-label="Pix"
+                className="flex h-5 items-center justify-center rounded-[3px] border border-border bg-[#32BCAD] px-1.5 text-[9px] font-extrabold tracking-tight text-white"
+              >
+                Pix
+              </span>
               <span
                 aria-label="Mastercard"
                 className="flex h-5 w-8 items-center justify-center rounded-[3px] border border-border bg-white"
