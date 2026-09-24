@@ -26,7 +26,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-background">
-      <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-primary-foreground uppercase">
+      <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
         Frete grátis acima de R$ 199 · Até 60% OFF
       </div>
 

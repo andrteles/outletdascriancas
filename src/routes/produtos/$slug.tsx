@@ -156,7 +156,7 @@ function ProductPage() {
             </div>
           </div>
 
-          <Button size="lg" className="mt-6 w-full" onClick={handleAddToCart}>
+          <Button size="lg" className="mt-6 w-full text-white uppercase" onClick={handleAddToCart}>
             Adicionar à sacola
           </Button>
 
