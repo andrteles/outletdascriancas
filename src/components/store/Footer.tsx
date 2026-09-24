@@ -2,6 +2,13 @@ import { Link } from "@tanstack/react-router";
 
 import { categories } from "@/lib/products";
 
+const bandeiras = [
+  { nome: "Visa", className: "bg-white text-[#1A1F71] italic" },
+  { nome: "Elo", className: "bg-white text-foreground" },
+  { nome: "Amex", className: "bg-[#006FCF] text-white" },
+  { nome: "Hipercard", className: "bg-[#B3131B] text-white" },
+];
+
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-border bg-surface">
@@ -45,9 +52,30 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-5 text-xs text-muted-foreground md:flex-row">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-muted-foreground md:flex-row">
           <p>© 2026 - Outlet</p>
-          <p>Pagamento em até 12x no cartão</p>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <p>Pagamento em até 12x no cartão</p>
+            <div className="flex items-center gap-1.5">
+              <span
+                aria-label="Mastercard"
+                className="flex h-5 w-8 items-center justify-center rounded-[3px] border border-border bg-white"
+              >
+                <svg width="18" height="11" viewBox="0 0 18 11" aria-hidden="true">
+                  <circle cx="6" cy="5.5" r="5.5" fill="#EB001B" />
+                  <circle cx="12" cy="5.5" r="5.5" fill="#F79E1B" className="mix-blend-multiply" />
+                </svg>
+              </span>
+              {bandeiras.map((bandeira) => (
+                <span
+                  key={bandeira.nome}
+                  className={`flex h-5 items-center justify-center rounded-[3px] border border-border px-1.5 text-[9px] font-extrabold tracking-tight ${bandeira.className}`}
+                >
+                  {bandeira.nome}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </footer>
