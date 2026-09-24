@@ -24,7 +24,7 @@ function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto flex max-w-xl flex-col items-center gap-4 px-6 py-24 text-center">
+      <div className="mx-auto flex max-w-xl flex-col items-center gap-4 px-4 py-16 text-center sm:px-6 sm:py-24">
         <ShoppingBag className="size-12 text-muted-foreground" />
         <h1 className="text-xl font-bold">Sua sacola está vazia</h1>
         <p className="text-sm text-muted-foreground">
@@ -38,33 +38,33 @@ function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
-      <h1 className="text-2xl font-extrabold tracking-tight font-display">Sua sacola</h1>
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10">
+      <h1 className="text-xl font-extrabold tracking-tight font-display sm:text-2xl">Sua sacola</h1>
 
-      <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
-        <ul className="flex flex-col gap-5">
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:mt-8 md:grid-cols-[1fr_320px] md:gap-10">
+        <ul className="flex flex-col gap-4 sm:gap-5">
           {items.map((item) => (
             <li
               key={`${item.slug}-${item.size}`}
-              className="flex gap-4 border-b border-border pb-5"
+              className="flex gap-3 border-b border-border pb-4 sm:gap-4 sm:pb-5"
             >
               <Link to="/produtos/$slug" params={{ slug: item.slug }} className="shrink-0">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="size-24 rounded-lg bg-surface object-cover"
+                  className="size-20 rounded-lg bg-surface object-cover sm:size-24"
                 />
               </Link>
               <div className="flex min-w-0 flex-1 flex-col">
                 <Link
                   to="/produtos/$slug"
                   params={{ slug: item.slug }}
-                  className="text-sm font-medium hover:text-primary"
+                  className="line-clamp-2 text-sm font-medium hover:text-primary"
                 >
                   {item.title}
                 </Link>
                 <p className="mt-0.5 text-xs text-muted-foreground">Tamanho: {item.size}</p>
-                <div className="mt-auto flex items-center justify-between pt-3">
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-3">
                   <div className="flex items-center gap-2 rounded-full border border-border">
                     <button
                       type="button"
@@ -93,7 +93,7 @@ function CartPage() {
                 type="button"
                 aria-label="Remover item"
                 onClick={() => removeItem(item.slug, item.size)}
-                className="self-start text-muted-foreground hover:text-destructive"
+                className="shrink-0 self-start text-muted-foreground hover:text-destructive"
               >
                 <Trash2 className="size-4" />
               </button>
@@ -101,7 +101,7 @@ function CartPage() {
           ))}
         </ul>
 
-        <div className="h-fit rounded-xl border border-border p-5">
+        <div className="h-fit rounded-xl border border-border p-4 sm:p-5">
           <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">
             Resumo
           </h2>
