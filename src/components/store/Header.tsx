@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBag, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { categories } from "@/lib/products";
 import { useCart } from "@/lib/cart";
@@ -12,11 +12,29 @@ const navLinks = [
   { label: "Kits e Conjuntos", search: { categoria: "Kits" } },
 ];
 
+const announcements = [
+  "10% de desconto em pedidos acima de R$99",
+  "Peças com até 60% OFF e Frete Grátis",
+];
+
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [announcementIndex, setAnnouncementIndex] = useState(0);
+  const [announcementVisible, setAnnouncementVisible] = useState(true);
   const navigate = useNavigate();
   const { itemCount, openCart } = useCart();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnnouncementVisible(false);
+      setTimeout(() => {
+        setAnnouncementIndex((index) => (index + 1) % announcements.length);
+        setAnnouncementVisible(true);
+      }, 500);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   function handleSearch(event: React.FormEvent) {
     event.preventDefault();
@@ -27,7 +45,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 bg-background">
       <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
-        10% de desconto em pedidos acima de R$99 · Frete Grátis
+        <span
+          className={`inline-block transition-opacity duration-500 ease-in-out ${announcementVisible ? "opacity-100" : "opacity-0"}`}
+        >
+          {announcements[announcementIndex]}
+        </span>
       </div>
 
       <div className="border-b border-border">
