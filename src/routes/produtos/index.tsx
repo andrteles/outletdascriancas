@@ -10,7 +10,22 @@ const searchSchema = z.object({
   faixa: z.string().optional(),
   busca: z.string().optional(),
   ordenar: z.enum(["relevancia", "menor-preco", "maior-preco", "maior-desconto"]).optional(),
+  pagina: z.coerce.number().int().min(1).optional(),
 });
+
+const PRODUCTS_PER_PAGE = 50;
+
+function getPageNumbers(current: number, total: number): (number | "...")[] {
+  const pages: (number | "...")[] = [];
+  for (let page = 1; page <= total; page++) {
+    if (page === 1 || page === total || Math.abs(page - current) <= 1) {
+      pages.push(page);
+    } else if (pages[pages.length - 1] !== "...") {
+      pages.push("...");
+    }
+  }
+  return pages;
+}
 
 export const Route = createFileRoute("/produtos/")({
   validateSearch: searchSchema,
@@ -39,8 +54,22 @@ function ProductsPage() {
   const faixaAtiva = search.faixa === "todas" ? undefined : (search.faixa ?? "Bebê");
   const results = filterProducts({ ...search, faixa: faixaAtiva });
 
+  const totalPages = Math.max(1, Math.ceil(results.length / PRODUCTS_PER_PAGE));
+  const currentPage = Math.min(search.pagina ?? 1, totalPages);
+  const paginatedResults = results.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE,
+  );
+
   function updateSearch(patch: Partial<typeof search>) {
-    navigate({ search: { ...search, ...patch } });
+    navigate({ search: { ...search, ...patch, pagina: undefined } });
+  }
+
+  function goToPage(pagina: number) {
+    navigate({ search: { ...search, pagina: pagina > 1 ? pagina : undefined } });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   return (
@@ -150,11 +179,56 @@ function ProductsPage() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-              {results.map((product) => (
-                <ProductCard key={product.slug} product={product} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {paginatedResults.map((product) => (
+                  <ProductCard key={product.slug} product={product} />
+                ))}
+              </div>
+
+              {totalPages > 1 ? (
+                <nav
+                  aria-label="Paginação"
+                  className="mt-8 flex flex-wrap items-center justify-center gap-1 text-sm"
+                >
+                  <button
+                    type="button"
+                    onClick={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="rounded-md px-3 py-1.5 font-medium hover:bg-secondary disabled:pointer-events-none disabled:opacity-40"
+                  >
+                    Anterior
+                  </button>
+                  {getPageNumbers(currentPage, totalPages).map((page, index) =>
+                    page === "..." ? (
+                      <span key={`ellipsis-${index}`} className="px-1.5 text-muted-foreground">
+                        …
+                      </span>
+                    ) : (
+                      <button
+                        key={page}
+                        type="button"
+                        onClick={() => goToPage(page)}
+                        className={cn(
+                          "size-8 rounded-md font-medium hover:bg-secondary",
+                          page === currentPage && "bg-primary text-white hover:bg-primary/90",
+                        )}
+                      >
+                        {page}
+                      </button>
+                    ),
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="rounded-md px-3 py-1.5 font-medium hover:bg-secondary disabled:pointer-events-none disabled:opacity-40"
+                  >
+                    Próxima
+                  </button>
+                </nav>
+              ) : null}
+            </>
           )}
         </div>
       </div>
