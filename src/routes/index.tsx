@@ -274,7 +274,7 @@ function Home() {
           </article>
 
           <div className="col-span-12 flex flex-col gap-4 md:col-span-5">
-            <article className="glass lift flex-1 items-center gap-4 rounded-2xl p-5">
+            <article className="glass lift flex flex-1 items-center gap-4 rounded-2xl p-5">
               <img
                 src={conjuntinhoMalha}
                 alt="Conjuntinho de malha creme dobrado sobre madeira clara"
@@ -295,7 +295,7 @@ function Home() {
               </span>
             </article>
 
-            <article className="glass lift flex-1 items-center gap-4 rounded-2xl p-5">
+            <article className="glass lift flex flex-1 items-center gap-4 rounded-2xl p-5">
               <img
                 src={moletomCapuz}
                 alt="Moletom com capuz verde sálvia em cabide de madeira"
