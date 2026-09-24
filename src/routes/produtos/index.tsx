@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
 import { ageGroups, categories, filterProducts, type SortOption } from "@/lib/products";
+import { getPageNumbers } from "@/lib/pagination";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
@@ -14,18 +15,6 @@ const searchSchema = z.object({
 });
 
 const PRODUCTS_PER_PAGE = 50;
-
-function getPageNumbers(current: number, total: number): (number | "...")[] {
-  const pages: (number | "...")[] = [];
-  for (let page = 1; page <= total; page++) {
-    if (page === 1 || page === total || Math.abs(page - current) <= 1) {
-      pages.push(page);
-    } else if (pages[pages.length - 1] !== "...") {
-      pages.push("...");
-    }
-  }
-  return pages;
-}
 
 export const Route = createFileRoute("/produtos/")({
   validateSearch: searchSchema,
@@ -210,8 +199,9 @@ function ProductsPage() {
                         type="button"
                         onClick={() => goToPage(page)}
                         className={cn(
-                          "size-8 rounded-md font-medium hover:bg-secondary",
-                          page === currentPage && "bg-primary text-white hover:bg-primary/90",
+                          "flex size-8 items-center justify-center rounded-full font-medium hover:bg-secondary",
+                          page === currentPage &&
+                            "border-2 border-primary font-bold text-primary hover:bg-transparent",
                         )}
                       >
                         {page}

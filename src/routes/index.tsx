@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
+import { getPageNumbers } from "@/lib/pagination";
 import { filterProducts } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
@@ -101,37 +102,55 @@ function Home() {
         ))}
       </div>
 
-      <div className="mt-8 flex items-center justify-center gap-3">
-        <Link
-          to="/"
-          search={{ pagina: page - 1 }}
-          aria-disabled={page <= 1}
-          className={cn(
-            "rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors",
-            page <= 1
-              ? "pointer-events-none opacity-40"
-              : "hover:border-primary hover:text-primary",
-          )}
+      {totalPages > 1 ? (
+        <nav
+          aria-label="Paginação"
+          className="mt-8 flex flex-wrap items-center justify-center gap-1 text-sm"
         >
-          Anterior
-        </Link>
-        <p className="text-sm text-muted-foreground">
-          Página {page} de {totalPages}
-        </p>
-        <Link
-          to="/"
-          search={{ pagina: page + 1 }}
-          aria-disabled={page >= totalPages}
-          className={cn(
-            "rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors",
-            page >= totalPages
-              ? "pointer-events-none opacity-40"
-              : "hover:border-primary hover:text-primary",
+          <Link
+            to="/"
+            search={{ pagina: page - 1 }}
+            aria-disabled={page <= 1}
+            className={cn(
+              "rounded-md px-3 py-1.5 font-medium transition-colors",
+              page <= 1 ? "pointer-events-none opacity-40" : "hover:bg-secondary",
+            )}
+          >
+            Anterior
+          </Link>
+          {getPageNumbers(page, totalPages).map((p, index) =>
+            p === "..." ? (
+              <span key={`ellipsis-${index}`} className="px-1.5 text-muted-foreground">
+                …
+              </span>
+            ) : (
+              <Link
+                key={p}
+                to="/"
+                search={{ pagina: p }}
+                className={cn(
+                  "flex size-8 items-center justify-center rounded-full font-medium hover:bg-secondary",
+                  p === page &&
+                    "border-2 border-primary font-bold text-primary hover:bg-transparent",
+                )}
+              >
+                {p}
+              </Link>
+            ),
           )}
-        >
-          Próxima
-        </Link>
-      </div>
+          <Link
+            to="/"
+            search={{ pagina: page + 1 }}
+            aria-disabled={page >= totalPages}
+            className={cn(
+              "rounded-md px-3 py-1.5 font-medium transition-colors",
+              page >= totalPages ? "pointer-events-none opacity-40" : "hover:bg-secondary",
+            )}
+          >
+            Próxima
+          </Link>
+        </nav>
+      ) : null}
     </div>
   );
 }
