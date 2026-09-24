@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
 import type { Product } from "@/lib/products";
-import { formatInstallments, formatPrice } from "@/lib/format";
+import { formatInstallmentsComJuros, formatPrice } from "@/lib/format";
 
 export function ProductCard({ product }: { product: Product }) {
   const image = product.images[0];
@@ -42,7 +42,9 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           ) : null}
         </div>
-        <p className="mt-0.5 text-xs text-muted-foreground">{formatInstallments(product.price)}</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">
+          {formatInstallmentsComJuros(product.price, 6)}
+        </p>
       </div>
     </Link>
   );
