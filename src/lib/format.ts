@@ -9,7 +9,7 @@ export function formatInstallments(value: number, installments = 6): string {
 
 export function formatInstallmentsComJuros(value: number, installments = 12, juros = 0.06): string {
   const parcela = (value * (1 + juros)) / installments;
-  return `${installments}x de ${formatPrice(parcela)} com juros de ${Math.round(juros * 100)}%`;
+  return `${installments}x de ${formatPrice(parcela)}`;
 }
 
 export function formatPixPrice(value: number, discount = 0.05): string {

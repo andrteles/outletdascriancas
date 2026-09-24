@@ -111,7 +111,7 @@ function CartPage() {
           </div>
           <div className="mt-1 flex items-center justify-between text-sm text-muted-foreground">
             <span>Frete</span>
-            <span>{subtotal >= 199 ? "Grátis" : "Calculado na próxima etapa"}</span>
+            <span>Gratuito</span>
           </div>
           <div className="mt-4 border-t border-border pt-4">
             <p className="text-sm font-semibold">{formatInstallmentsComJuros(subtotal)}</p>
