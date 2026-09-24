@@ -143,7 +143,7 @@ function ProductsPage() {
               </p>
               <Link
                 to="/produtos"
-                className="mt-2 rounded-full bg-primary px-5 py-2 text-sm font-bold text-primary-foreground"
+                className="mt-2 rounded-full bg-primary px-5 py-2 text-sm font-bold text-white"
               >
                 Limpar filtros
               </Link>
