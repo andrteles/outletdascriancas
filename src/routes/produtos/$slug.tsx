@@ -146,7 +146,7 @@ function ProductPage() {
                   className={cn(
                     "rounded-md border px-3.5 py-2 text-sm font-medium transition-colors",
                     selectedSize === size
-                      ? "border-primary bg-primary text-primary-foreground"
+                      ? "border-primary bg-primary text-white"
                       : "border-input hover:border-primary",
                   )}
                 >

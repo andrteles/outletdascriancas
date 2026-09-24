@@ -63,7 +63,7 @@ export function Header() {
           >
             <ShoppingBag className="size-5" />
             {itemCount > 0 ? (
-              <span className="absolute -top-1 -right-1 grid size-4.5 place-items-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+              <span className="absolute -top-1 -right-1 grid size-4.5 place-items-center rounded-full bg-primary text-[10px] font-bold text-white">
                 {itemCount}
               </span>
             ) : null}
