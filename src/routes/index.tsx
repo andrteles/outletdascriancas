@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
-import { filterProducts, type Product } from "@/lib/products";
+import { filterProducts } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
@@ -26,15 +26,21 @@ export const Route = createFileRoute("/")({
 
 const PAGE_SIZE = 20;
 
-// Destaques manuais: troca 2 calças (cores repetidas) da 2ª fila da home
-// por um kit e um conjunto de ticket mais alto.
-const DESTAQUES_SLUGS = [
-  "kit-body-bebe-5-pecas-trenzinhos-multicor-carter-s",
-  "conjunto-longo-bebe-3-pecas-ovelinha-off-white-carter-s",
-];
-const SUBSTITUIDOS_SLUGS = [
-  "calca-jeans-infantil-baggy-coracoes-denim-escuro-carter-s",
-  "calca-jeans-infantil-reta-com-cos-elastico-denim-escuro-carter-s",
+// Destaques manuais da home: cada par troca, no lugar exato do produto
+// substituído, um item de ticket mais alto / menos repetido na vitrine.
+const SUBSTITUICOES_PAGINA_1: Array<[substituido: string, destaque: string]> = [
+  [
+    "calca-jeans-infantil-baggy-coracoes-denim-escuro-carter-s",
+    "kit-body-bebe-5-pecas-trenzinhos-multicor-carter-s",
+  ],
+  [
+    "calca-jeans-infantil-reta-com-cos-elastico-denim-escuro-carter-s",
+    "conjunto-longo-bebe-3-pecas-ovelinha-off-white-carter-s",
+  ],
+  [
+    "calca-infantil-relaxed-em-plush-off-white-carter-s",
+    "conjunto-longo-bebe-3-pecas-em-sherpa-multicor-carter-s",
+  ],
 ];
 
 const filtros = [
@@ -54,14 +60,16 @@ function Home() {
   let vitrine = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   if (page === 1) {
-    const destaques = DESTAQUES_SLUGS.map((slug) => all.find((p) => p.slug === slug)).filter(
-      (p): p is Product => Boolean(p),
-    );
-    const posicao = vitrine.findIndex((p) => p.slug === SUBSTITUIDOS_SLUGS[0]);
-    vitrine = vitrine.filter(
-      (p) => !SUBSTITUIDOS_SLUGS.includes(p.slug) && !DESTAQUES_SLUGS.includes(p.slug),
-    );
-    vitrine.splice(posicao === -1 ? vitrine.length : posicao, 0, ...destaques);
+    const porSlug = new Map(all.map((p) => [p.slug, p]));
+    const destaqueSlugs = new Set(SUBSTITUICOES_PAGINA_1.map(([, destaque]) => destaque));
+    vitrine = vitrine.filter((p) => !destaqueSlugs.has(p.slug));
+    for (const [substituido, destaque] of SUBSTITUICOES_PAGINA_1) {
+      const indice = vitrine.findIndex((p) => p.slug === substituido);
+      const produto = porSlug.get(destaque);
+      if (indice !== -1 && produto) {
+        vitrine[indice] = produto;
+      }
+    }
 
     // Troca os itens 3-4 com os 5-6, subindo o kit e o conjunto para a 1ª fila.
     [vitrine[2], vitrine[4]] = [vitrine[4]!, vitrine[2]!];
