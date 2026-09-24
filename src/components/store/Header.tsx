@@ -12,11 +12,6 @@ const navLinks = [
   { label: "Kits e Conjuntos", search: { categoria: "Kits" } },
 ];
 
-const announcements = [
-  "10% de desconto em pedidos acima de R$99",
-  "Peças com até 60% OFF e Frete Grátis",
-];
-
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -31,14 +26,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-background">
-      <div className="relative overflow-hidden bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
-        <span className="invisible">{announcements[0]}</span>
-        <span className="animate-announcement absolute inset-0 flex items-center justify-center px-4">
-          {announcements[0]}
-        </span>
-        <span className="animate-announcement-delay absolute inset-0 flex items-center justify-center px-4">
-          {announcements[1]}
-        </span>
+      <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
+        10% de desconto em pedidos acima de R$99
       </div>
 
       <div className="border-b border-border">
