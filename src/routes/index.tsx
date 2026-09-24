@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
-import { filterProducts } from "@/lib/products";
+import { filterProducts, type Product } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
@@ -26,6 +26,17 @@ export const Route = createFileRoute("/")({
 
 const PAGE_SIZE = 20;
 
+// Destaques manuais: troca 2 calças (cores repetidas) da 2ª fila da home
+// por um kit e um conjunto de ticket mais alto.
+const DESTAQUES_SLUGS = [
+  "kit-body-bebe-5-pecas-trenzinhos-multicor-carter-s",
+  "conjunto-longo-bebe-3-pecas-ovelinha-off-white-carter-s",
+];
+const SUBSTITUIDOS_SLUGS = [
+  "calca-jeans-infantil-baggy-coracoes-denim-escuro-carter-s",
+  "calca-jeans-infantil-reta-com-cos-elastico-denim-escuro-carter-s",
+];
+
 const filtros = [
   { rotulo: "Promoções", search: { ordenar: "maior-desconto" as const } },
   { rotulo: "Bebê", search: { faixa: "Bebê" } },
@@ -40,7 +51,18 @@ function Home() {
   const all = filterProducts({ ordenar: "maior-desconto" });
   const totalPages = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
   const page = Math.min(Math.max(search.pagina ?? 1, 1), totalPages);
-  const vitrine = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  let vitrine = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  if (page === 1) {
+    const destaques = DESTAQUES_SLUGS.map((slug) => all.find((p) => p.slug === slug)).filter(
+      (p): p is Product => Boolean(p),
+    );
+    const posicao = vitrine.findIndex((p) => p.slug === SUBSTITUIDOS_SLUGS[0]);
+    vitrine = vitrine.filter(
+      (p) => !SUBSTITUIDOS_SLUGS.includes(p.slug) && !DESTAQUES_SLUGS.includes(p.slug),
+    );
+    vitrine.splice(posicao === -1 ? vitrine.length : posicao, 0, ...destaques);
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
