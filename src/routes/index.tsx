@@ -62,6 +62,10 @@ function Home() {
       (p) => !SUBSTITUIDOS_SLUGS.includes(p.slug) && !DESTAQUES_SLUGS.includes(p.slug),
     );
     vitrine.splice(posicao === -1 ? vitrine.length : posicao, 0, ...destaques);
+
+    // Troca os itens 3-4 com os 5-6, subindo o kit e o conjunto para a 1ª fila.
+    [vitrine[2], vitrine[4]] = [vitrine[4]!, vitrine[2]!];
+    [vitrine[3], vitrine[5]] = [vitrine[5]!, vitrine[3]!];
   }
 
   return (
