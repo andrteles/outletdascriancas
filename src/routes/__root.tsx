@@ -82,7 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Outlet das Crianças · Roupas Carter's com até 60% OFF" },
+      { title: "Outlet" },
       {
         name: "description",
         content:

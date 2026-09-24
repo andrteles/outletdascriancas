@@ -11,12 +11,8 @@ export function Footer() {
     <footer className="mt-16 border-t border-border bg-surface">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 md:grid-cols-12">
         <div className="md:col-span-4">
-          <p className="font-display text-2xl font-extrabold tracking-tight">
-            <span className="text-primary">outlet</span> das crianças
-          </p>
-          <p className="mt-3 max-w-[34ch] text-sm text-muted-foreground">
-            Roupas Carter's para bebês e crianças com até 60% de desconto. Peças originais, preços
-            de outlet.
+          <p className="max-w-[34ch] text-sm text-muted-foreground">
+            Roupas para bebês e crianças com até 60% de desconto. Peças originais, preços de outlet.
           </p>
           <form
             className="mt-6 flex max-w-sm gap-2"
@@ -81,23 +77,12 @@ export function Footer() {
             <li>Fale conosco</li>
           </ul>
         </div>
-
-        <div className="md:col-span-3">
-          <p className="mb-3 text-xs font-bold tracking-wide text-muted-foreground uppercase">
-            Contato
-          </p>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>contato@outletdascriancas.com.br</li>
-            <li>(11) 90000-0000</li>
-            <li>Seg–Sex, 9h–18h</li>
-          </ul>
-        </div>
       </div>
 
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-5 text-xs text-muted-foreground md:flex-row">
-          <p>© 2026 Outlet das Crianças · Produtos Carter's</p>
-          <p>Pagamento em até 6x sem juros · PIX com 5% de desconto</p>
+          <p>© 2026 Outlet das Crianças</p>
+          <p>Pagamento em até 12x no cartão (Não tem desconto no pix)</p>
         </div>
       </div>
     </footer>

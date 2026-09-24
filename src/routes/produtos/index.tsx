@@ -16,7 +16,7 @@ export const Route = createFileRoute("/produtos/")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Produtos · Outlet das Crianças" },
+      { title: "Outlet" },
       {
         name: "description",
         content: "Todas as roupas Carter's em promoção, filtre por idade, categoria e preço.",

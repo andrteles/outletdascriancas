@@ -8,7 +8,7 @@ import { formatInstallments, formatPixPrice, formatPrice } from "@/lib/format";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
-    meta: [{ title: "Sacola · Outlet das Crianças" }],
+    meta: [{ title: "Outlet" }],
   }),
   component: CartPage,
 });

@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Outlet das Crianças · Roupas Carter's com até 60% OFF" },
+      { title: "Outlet" },
       {
         name: "description",
         content:
