@@ -126,7 +126,7 @@ function ProductPage() {
             ) : null}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            {formatInstallments(product.price)} · ou {formatPixPrice(product.price)} no PIX
+            {formatInstallments(product.price)} · ou {formatPixPrice(product.price)} no Pix
           </p>
 
           <div className="mt-6">

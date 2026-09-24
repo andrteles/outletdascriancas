@@ -115,7 +115,7 @@ function CartPage() {
           </div>
           <div className="mt-4 border-t border-border pt-4">
             <p className="text-sm font-semibold">{formatInstallmentsComJuros(subtotal)}</p>
-            <p className="text-sm text-muted-foreground">ou {formatPixPrice(subtotal)} no PIX</p>
+            <p className="text-sm text-muted-foreground">ou {formatPixPrice(subtotal)} no Pix</p>
           </div>
           <Button
             size="lg"
