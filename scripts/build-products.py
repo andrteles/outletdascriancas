@@ -3,6 +3,8 @@
 
 Uso: python3 scripts/build-products.py /caminho/para/products_export_1.csv
 """
+from __future__ import annotations
+
 import csv
 import json
 import re
@@ -75,6 +77,15 @@ def clean_title(title: str) -> str:
     return re.sub(r"\s*\|\s*Carter'?s\s*$", "", title).strip()
 
 
+def clean_description(html: str) -> str | None:
+    """Remove o parágrafo genérico de institucional da Carter's repetido em
+    quase todo produto, mantendo apenas o texto específico da peça."""
+    paragraphs = re.findall(r"<p>.*?</p>", html, re.S)
+    kept = [p for p in paragraphs if "marca líder em roupas infantis" not in p]
+    description = "".join(kept).strip()
+    return description or None
+
+
 def main() -> None:
     if len(sys.argv) != 2:
         print("uso: build-products.py <caminho-csv>", file=sys.stderr)
@@ -125,6 +136,7 @@ def main() -> None:
                 images.append(src)
 
         title = clean_title(first["Title"])
+        description = clean_description(first.get("Body (HTML)") or "")
         category = infer_category(title)
         age_group = infer_age_group(sizes)
         discount_pct = (
@@ -136,6 +148,7 @@ def main() -> None:
                 "handle": handle,
                 "slug": slugify(handle),
                 "title": title,
+                "description": description,
                 "brand": first.get("Vendor") or "Carter's",
                 "price": price,
                 "compareAtPrice": compare_at,

@@ -6,8 +6,19 @@ import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { formatInstallments, formatPixPrice, formatPrice } from "@/lib/format";
-import { getProductBySlug, getRelatedProducts } from "@/lib/products";
+import { getProductBySlug, getRelatedProducts, type Product } from "@/lib/products";
 import { cn } from "@/lib/utils";
+
+function metaDescription(product: Product): string {
+  const plain = (product.description ?? "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!plain) {
+    return `${product.title} - Carter's, ${formatPrice(product.price)}`;
+  }
+  return plain.length > 160 ? `${plain.slice(0, 157)}...` : plain;
+}
 
 export const Route = createFileRoute("/produtos/$slug")({
   loader: ({ params }) => {
@@ -21,7 +32,7 @@ export const Route = createFileRoute("/produtos/$slug")({
           { title: `${loaderData.title} · Outlet das Crianças` },
           {
             name: "description",
-            content: `${loaderData.title} - Carter's, ${formatPrice(loaderData.price)}`,
+            content: metaDescription(loaderData),
           },
         ]
       : [],
@@ -160,6 +171,16 @@ function ProductPage() {
           </div>
         </div>
       </div>
+
+      {product.description ? (
+        <section className="mt-12 max-w-3xl border-t border-border pt-8">
+          <h2 className="mb-3 text-xl font-extrabold tracking-tight font-display">Descrição</h2>
+          <div
+            className="text-sm leading-relaxed text-muted-foreground [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_strong]:text-foreground"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        </section>
+      ) : null}
 
       {related.length > 0 ? (
         <section className="mt-16">

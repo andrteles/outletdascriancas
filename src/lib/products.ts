@@ -4,6 +4,7 @@ export interface Product {
   handle: string;
   slug: string;
   title: string;
+  description: string | null;
   brand: string;
   price: number;
   compareAtPrice: number | null;
