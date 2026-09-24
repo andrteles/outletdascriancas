@@ -27,7 +27,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 bg-background">
       <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
-        10% de desconto em pedidos acima de R$99 · Até 60% OFF
+        10% de desconto em pedidos acima de R$99 · Frete Grátis
       </div>
 
       <div className="border-b border-border">
