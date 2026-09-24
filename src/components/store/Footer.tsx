@@ -46,7 +46,7 @@ export function Footer() {
 
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-5 text-xs text-muted-foreground md:flex-row">
-          <p>© 2026 Outlet</p>
+          <p>© 2026 - Outlet</p>
           <p>Pagamento em até 12x no cartão</p>
         </div>
       </div>
