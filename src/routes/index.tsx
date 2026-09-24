@@ -190,7 +190,7 @@ function Home() {
                 height={1008}
                 className="aspect-[4/3] w-full rounded-[28px] bg-surface object-cover outline-1 -outline-offset-1 outline-black/5"
               />
-              <div className="glass-strong absolute -bottom-6 -left-6 max-w-[240px] rounded-2xl px-5 py-4">
+              <div className="glass-strong absolute bottom-4 left-4 max-w-[240px] rounded-2xl px-5 py-4 lg:-bottom-6 lg:-left-6">
                 <p className="font-mono text-[10px] tracking-[0.15em] text-muted-foreground uppercase">
                   Peça da semana
                 </p>
@@ -274,7 +274,7 @@ function Home() {
           </article>
 
           <div className="col-span-12 flex flex-col gap-4 md:col-span-5">
-            <article className="glass lift flex items-center gap-4 rounded-2xl p-5">
+            <article className="glass lift flex-1 items-center gap-4 rounded-2xl p-5">
               <img
                 src={conjuntinhoMalha}
                 alt="Conjuntinho de malha creme dobrado sobre madeira clara"
@@ -295,7 +295,7 @@ function Home() {
               </span>
             </article>
 
-            <article className="glass lift flex items-center gap-4 rounded-2xl p-5">
+            <article className="glass lift flex-1 items-center gap-4 rounded-2xl p-5">
               <img
                 src={moletomCapuz}
                 alt="Moletom com capuz verde sálvia em cabide de madeira"
