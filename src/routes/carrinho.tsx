@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
-import { formatInstallments, formatPixPrice, formatPrice } from "@/lib/format";
+import { formatInstallmentsComJuros, formatPixPrice, formatPrice } from "@/lib/format";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
@@ -114,7 +114,7 @@ function CartPage() {
             <span>{subtotal >= 199 ? "Grátis" : "Calculado na próxima etapa"}</span>
           </div>
           <div className="mt-4 border-t border-border pt-4">
-            <p className="text-sm font-semibold">{formatInstallments(subtotal)}</p>
+            <p className="text-sm font-semibold">{formatInstallmentsComJuros(subtotal)}</p>
             <p className="text-sm text-muted-foreground">ou {formatPixPrice(subtotal)} no PIX</p>
           </div>
           <Button size="lg" className="mt-5 w-full uppercase" onClick={handleCheckout}>

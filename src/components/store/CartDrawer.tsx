@@ -87,8 +87,16 @@ export function CartDrawer() {
               <p className="w-full text-xs text-muted-foreground">
                 Frete e parcelamento calculados na próxima etapa.
               </p>
-              <Button asChild size="lg" className="w-full" onClick={closeCart}>
+              <Button asChild size="lg" className="w-full uppercase" onClick={closeCart}>
                 <Link to="/carrinho">Finalizar compra</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                className="w-full bg-black text-white hover:bg-black/90"
+                onClick={closeCart}
+              >
+                <Link to="/produtos">Continuar Comprando</Link>
               </Button>
             </SheetFooter>
           </>
