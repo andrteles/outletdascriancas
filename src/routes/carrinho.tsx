@@ -28,7 +28,7 @@ function CartPage() {
         <ShoppingBag className="size-12 text-muted-foreground" />
         <h1 className="text-xl font-bold">Sua sacola está vazia</h1>
         <p className="text-sm text-muted-foreground">
-          Explore nossos produtos e encontre as melhores ofertas Carter's.
+          Explore nossos produtos e encontre as melhores ofertas.
         </p>
         <Button asChild size="lg">
           <Link to="/produtos">Ver produtos</Link>
