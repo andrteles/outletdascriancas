@@ -5,26 +5,26 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system — "Gaveta": casa de roupas infantis de algodão orgânico.
+ * Design system — "Outlet das Crianças": loja de roupas infantis Carter's.
  *
- * Paleta de gaveta: fundo azul-leitoso, tinta azul-acinzentada profunda,
- * verde-água (primary) e terracota (accent) como acentos de tintura.
- * Todos os valores usam oklch.
+ * Paleta inspirada na identidade da Carter's: vermelho vibrante como
+ * primária (CTAs, preços em promoção), branco/creme como base e um
+ * grafite quase-preto para texto. Todos os valores usam oklch.
  */
 
 @theme {
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --ease-gaveta: cubic-bezier(0.32, 0.72, 0, 1);
-  --animate-rise: rise 0.7s var(--ease-gaveta) both;
-  --animate-fade: fade 0.9s var(--ease-gaveta) both;
+  --ease-outlet: cubic-bezier(0.32, 0.72, 0, 1);
+  --animate-rise: rise 0.6s var(--ease-outlet) both;
+  --animate-fade: fade 0.8s var(--ease-outlet) both;
 
   @keyframes rise {
     from {
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(16px);
     }
     to {
       opacity: 1;
@@ -86,94 +86,88 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.969 0.0068 238.46);
-  --surface: oklch(0.9845 0.0034 238.41);
-  --foreground: oklch(0.2751 0.0238 248.7);
-  --card: oklch(0.9845 0.0034 238.41);
-  --card-foreground: oklch(0.2751 0.0238 248.7);
-  --popover: oklch(0.9845 0.0034 238.41);
-  --popover-foreground: oklch(0.2751 0.0238 248.7);
-  --primary: oklch(0.6342 0.1007 182.18);
-  --primary-foreground: oklch(0.969 0.0068 238.46);
-  --secondary: oklch(0.945 0.009 238.4);
-  --secondary-foreground: oklch(0.2751 0.0238 248.7);
-  --muted: oklch(0.945 0.009 238.4);
-  --muted-foreground: oklch(0.5469 0.0339 248.45);
-  --accent: oklch(0.7437 0.1179 60.63);
-  --accent-foreground: oklch(0.2751 0.0238 248.7);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.2751 0.0238 248.7 / 0.08);
-  --input: oklch(0.2751 0.0238 248.7 / 0.14);
-  --ring: oklch(0.6342 0.1007 182.18);
-  --chart-1: oklch(0.6342 0.1007 182.18);
+  --radius: 0.6rem;
+  --background: oklch(1 0 0);
+  --surface: oklch(0.9755 0.0026 17.2);
+  --foreground: oklch(0.205 0.008 17.2);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.205 0.008 17.2);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.205 0.008 17.2);
+  --primary: oklch(0.5346 0.2118 25.52);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.965 0.006 17.2);
+  --secondary-foreground: oklch(0.205 0.008 17.2);
+  --muted: oklch(0.965 0.006 17.2);
+  --muted-foreground: oklch(0.48 0.012 17.2);
+  --accent: oklch(0.9257 0.0313 81.46);
+  --accent-foreground: oklch(0.205 0.008 17.2);
+  --destructive: oklch(0.5346 0.2118 25.52);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.205 0.008 17.2 / 0.1);
+  --input: oklch(0.205 0.008 17.2 / 0.16);
+  --ring: oklch(0.5346 0.2118 25.52);
+  --chart-1: oklch(0.5346 0.2118 25.52);
   --chart-2: oklch(0.7437 0.1179 60.63);
   --chart-3: oklch(0.8701 0.0528 186.18);
   --chart-4: oklch(0.8037 0.0753 62.62);
   --chart-5: oklch(0.8547 0.0243 248.11);
-  --sidebar: oklch(0.9845 0.0034 238.41);
-  --sidebar-foreground: oklch(0.2751 0.0238 248.7);
-  --sidebar-primary: oklch(0.6342 0.1007 182.18);
-  --sidebar-primary-foreground: oklch(0.969 0.0068 238.46);
-  --sidebar-accent: oklch(0.945 0.009 238.4);
-  --sidebar-accent-foreground: oklch(0.2751 0.0238 248.7);
-  --sidebar-border: oklch(0.2751 0.0238 248.7 / 0.08);
-  --sidebar-ring: oklch(0.6342 0.1007 182.18);
+  --sidebar: oklch(0.9755 0.0026 17.2);
+  --sidebar-foreground: oklch(0.205 0.008 17.2);
+  --sidebar-primary: oklch(0.5346 0.2118 25.52);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.965 0.006 17.2);
+  --sidebar-accent-foreground: oklch(0.205 0.008 17.2);
+  --sidebar-border: oklch(0.205 0.008 17.2 / 0.1);
+  --sidebar-ring: oklch(0.5346 0.2118 25.52);
 
-  /* Amostras da paleta de tintura da estação */
-  --swatch-salvia: oklch(0.8701 0.0528 186.18);
-  --swatch-creme: oklch(0.9257 0.0313 81.46);
-  --swatch-terra: oklch(0.8037 0.0753 62.62);
-  --swatch-ceu: oklch(0.8547 0.0243 248.11);
+  /* Selo de desconto/promo */
+  --sale: oklch(0.5346 0.2118 25.52);
+  --sale-foreground: oklch(1 0 0);
 }
 
 .dark {
-  --background: oklch(0.2035 0.018 248.7);
-  --surface: oklch(0.2435 0.02 248.7);
-  --foreground: oklch(0.969 0.0068 238.46);
-  --card: oklch(0.2435 0.02 248.7);
-  --card-foreground: oklch(0.969 0.0068 238.46);
-  --popover: oklch(0.2435 0.02 248.7);
-  --popover-foreground: oklch(0.969 0.0068 238.46);
-  --primary: oklch(0.7342 0.0907 182.18);
-  --primary-foreground: oklch(0.2035 0.018 248.7);
-  --secondary: oklch(0.2935 0.022 248.7);
-  --secondary-foreground: oklch(0.969 0.0068 238.46);
-  --muted: oklch(0.2935 0.022 248.7);
-  --muted-foreground: oklch(0.7269 0.0289 248.45);
+  --background: oklch(0.19 0.01 17.2);
+  --surface: oklch(0.23 0.012 17.2);
+  --foreground: oklch(0.97 0.004 17.2);
+  --card: oklch(0.23 0.012 17.2);
+  --card-foreground: oklch(0.97 0.004 17.2);
+  --popover: oklch(0.23 0.012 17.2);
+  --popover-foreground: oklch(0.97 0.004 17.2);
+  --primary: oklch(0.6346 0.2018 25.52);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.28 0.014 17.2);
+  --secondary-foreground: oklch(0.97 0.004 17.2);
+  --muted: oklch(0.28 0.014 17.2);
+  --muted-foreground: oklch(0.72 0.012 17.2);
   --accent: oklch(0.7937 0.1079 60.63);
-  --accent-foreground: oklch(0.2035 0.018 248.7);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --accent-foreground: oklch(0.205 0.008 17.2);
+  --destructive: oklch(0.6346 0.2018 25.52);
+  --destructive-foreground: oklch(1 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.7342 0.0907 182.18);
-  --chart-1: oklch(0.7342 0.0907 182.18);
+  --ring: oklch(0.6346 0.2018 25.52);
+  --chart-1: oklch(0.6346 0.2018 25.52);
   --chart-2: oklch(0.7937 0.1079 60.63);
   --chart-3: oklch(0.8701 0.0528 186.18);
   --chart-4: oklch(0.8037 0.0753 62.62);
   --chart-5: oklch(0.8547 0.0243 248.11);
-  --sidebar: oklch(0.2435 0.02 248.7);
-  --sidebar-foreground: oklch(0.969 0.0068 238.46);
-  --sidebar-primary: oklch(0.7342 0.0907 182.18);
-  --sidebar-primary-foreground: oklch(0.2035 0.018 248.7);
-  --sidebar-accent: oklch(0.2935 0.022 248.7);
-  --sidebar-accent-foreground: oklch(0.969 0.0068 238.46);
+  --sidebar: oklch(0.23 0.012 17.2);
+  --sidebar-foreground: oklch(0.97 0.004 17.2);
+  --sidebar-primary: oklch(0.6346 0.2018 25.52);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.28 0.014 17.2);
+  --sidebar-accent-foreground: oklch(0.97 0.004 17.2);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.7342 0.0907 182.18);
+  --sidebar-ring: oklch(0.6346 0.2018 25.52);
 
-  --swatch-salvia: oklch(0.62 0.045 186.18);
-  --swatch-creme: oklch(0.7 0.028 81.46);
-  --swatch-terra: oklch(0.62 0.07 62.62);
-  --swatch-ceu: oklch(0.6 0.022 248.11);
+  --sale: oklch(0.6346 0.2018 25.52);
+  --sale-foreground: oklch(1 0 0);
 }
 
 @theme inline {
-  --color-swatch-salvia: var(--swatch-salvia);
-  --color-swatch-creme: var(--swatch-creme);
-  --color-swatch-terra: var(--swatch-terra);
-  --color-swatch-ceu: var(--swatch-ceu);
+  --color-sale: var(--sale);
+  --color-sale-foreground: var(--sale-foreground);
 }
 
 @utility glass {
