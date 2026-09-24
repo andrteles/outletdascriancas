@@ -1,9 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
 import { filterProducts } from "@/lib/products";
+import { cn } from "@/lib/utils";
+
+const searchSchema = z.object({
+  pagina: z.coerce.number().int().positive().optional(),
+});
 
 export const Route = createFileRoute("/")({
+  validateSearch: searchSchema,
   head: () => ({
     meta: [
       { title: "Outlet das Crianças · Roupas Carter's com até 60% OFF" },
@@ -17,6 +24,8 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+const PAGE_SIZE = 20;
+
 const filtros = [
   { rotulo: "Promoções", search: { ordenar: "maior-desconto" as const } },
   { rotulo: "Bebê", search: { faixa: "Bebê" } },
@@ -27,7 +36,11 @@ const filtros = [
 ];
 
 function Home() {
-  const vitrine = filterProducts({ ordenar: "maior-desconto" }).slice(0, 16);
+  const search = Route.useSearch();
+  const all = filterProducts({ ordenar: "maior-desconto" });
+  const totalPages = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
+  const page = Math.min(Math.max(search.pagina ?? 1, 1), totalPages);
+  const vitrine = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
@@ -50,12 +63,35 @@ function Home() {
         ))}
       </div>
 
-      <div className="mt-6 text-center">
+      <div className="mt-8 flex items-center justify-center gap-3">
         <Link
-          to="/produtos"
-          className="inline-block rounded-full bg-primary px-8 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+          to="/"
+          search={{ pagina: page - 1 }}
+          aria-disabled={page <= 1}
+          className={cn(
+            "rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors",
+            page <= 1
+              ? "pointer-events-none opacity-40"
+              : "hover:border-primary hover:text-primary",
+          )}
         >
-          Ver todos os produtos
+          Anterior
+        </Link>
+        <p className="text-sm text-muted-foreground">
+          Página {page} de {totalPages}
+        </p>
+        <Link
+          to="/"
+          search={{ pagina: page + 1 }}
+          aria-disabled={page >= totalPages}
+          className={cn(
+            "rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors",
+            page >= totalPages
+              ? "pointer-events-none opacity-40"
+              : "hover:border-primary hover:text-primary",
+          )}
+        >
+          Próxima
         </Link>
       </div>
     </div>
