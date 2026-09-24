@@ -127,7 +127,7 @@ function CartPage() {
           <Button
             asChild
             size="lg"
-            className="mt-3 w-full bg-black font-bold text-white uppercase hover:bg-black/90"
+            className="mt-3 w-full border border-primary bg-white font-bold text-primary uppercase hover:bg-primary/5"
           >
             <Link to="/produtos">Continuar Comprando</Link>
           </Button>
