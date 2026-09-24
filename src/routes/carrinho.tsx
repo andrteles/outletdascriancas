@@ -117,13 +117,17 @@ function CartPage() {
             <p className="text-sm font-semibold">{formatInstallmentsComJuros(subtotal)}</p>
             <p className="text-sm text-muted-foreground">ou {formatPixPrice(subtotal)} no PIX</p>
           </div>
-          <Button size="lg" className="mt-5 w-full text-white uppercase" onClick={handleCheckout}>
+          <Button
+            size="lg"
+            className="mt-5 w-full font-bold text-white uppercase"
+            onClick={handleCheckout}
+          >
             Finalizar compra
           </Button>
           <Button
             asChild
             size="lg"
-            className="mt-3 w-full bg-black text-white uppercase hover:bg-black/90"
+            className="mt-3 w-full bg-black font-bold text-white uppercase hover:bg-black/90"
           >
             <Link to="/produtos">Continuar Comprando</Link>
           </Button>
