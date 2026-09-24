@@ -119,7 +119,7 @@ function CartPage() {
           </div>
           <Button
             size="lg"
-            className="mt-5 w-full font-bold text-white uppercase"
+            className="mt-5 w-full bg-[#3BAE8A] font-bold text-white uppercase hover:bg-[#3BAE8A]/90"
             onClick={handleCheckout}
           >
             Finalizar compra
