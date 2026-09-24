@@ -7,9 +7,10 @@
 /*
  * Design system — "Outlet das Crianças": loja de roupas infantis Carter's.
  *
- * Paleta inspirada na identidade da Carter's: vermelho vibrante como
- * primária (CTAs, preços em promoção), branco/creme como base e um
- * grafite quase-preto para texto. Todos os valores usam oklch.
+ * Paleta inspirada na identidade da Carter's: azul vibrante (#00A9EA) como
+ * primária (CTAs, links, logo), branco/creme como base e um grafite
+ * quase-preto para texto. Vermelho fica reservado para selos de desconto e
+ * estados destrutivos. Todos os valores usam oklch.
  */
 
 @theme {
@@ -94,8 +95,8 @@
   --card-foreground: oklch(0.205 0.008 17.2);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.205 0.008 17.2);
-  --primary: oklch(0.5346 0.2118 25.52);
-  --primary-foreground: oklch(1 0 0);
+  --primary: oklch(0.6931 0.1467 235.28);
+  --primary-foreground: oklch(0.15 0.01 235.28);
   --secondary: oklch(0.965 0.006 17.2);
   --secondary-foreground: oklch(0.205 0.008 17.2);
   --muted: oklch(0.965 0.006 17.2);
@@ -106,22 +107,22 @@
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.205 0.008 17.2 / 0.1);
   --input: oklch(0.205 0.008 17.2 / 0.16);
-  --ring: oklch(0.5346 0.2118 25.52);
-  --chart-1: oklch(0.5346 0.2118 25.52);
+  --ring: oklch(0.6931 0.1467 235.28);
+  --chart-1: oklch(0.6931 0.1467 235.28);
   --chart-2: oklch(0.7437 0.1179 60.63);
   --chart-3: oklch(0.8701 0.0528 186.18);
   --chart-4: oklch(0.8037 0.0753 62.62);
   --chart-5: oklch(0.8547 0.0243 248.11);
   --sidebar: oklch(0.9755 0.0026 17.2);
   --sidebar-foreground: oklch(0.205 0.008 17.2);
-  --sidebar-primary: oklch(0.5346 0.2118 25.52);
-  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(0.6931 0.1467 235.28);
+  --sidebar-primary-foreground: oklch(0.15 0.01 235.28);
   --sidebar-accent: oklch(0.965 0.006 17.2);
   --sidebar-accent-foreground: oklch(0.205 0.008 17.2);
   --sidebar-border: oklch(0.205 0.008 17.2 / 0.1);
-  --sidebar-ring: oklch(0.5346 0.2118 25.52);
+  --sidebar-ring: oklch(0.6931 0.1467 235.28);
 
-  /* Selo de desconto/promo */
+  /* Selo de desconto/promo — vermelho convencional, distinto da marca */
   --sale: oklch(0.5346 0.2118 25.52);
   --sale-foreground: oklch(1 0 0);
 }
@@ -134,8 +135,8 @@
   --card-foreground: oklch(0.97 0.004 17.2);
   --popover: oklch(0.23 0.012 17.2);
   --popover-foreground: oklch(0.97 0.004 17.2);
-  --primary: oklch(0.6346 0.2018 25.52);
-  --primary-foreground: oklch(1 0 0);
+  --primary: oklch(0.7534 0.1367 235.28);
+  --primary-foreground: oklch(0.15 0.01 235.28);
   --secondary: oklch(0.28 0.014 17.2);
   --secondary-foreground: oklch(0.97 0.004 17.2);
   --muted: oklch(0.28 0.014 17.2);
@@ -146,20 +147,20 @@
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.6346 0.2018 25.52);
-  --chart-1: oklch(0.6346 0.2018 25.52);
+  --ring: oklch(0.7534 0.1367 235.28);
+  --chart-1: oklch(0.7534 0.1367 235.28);
   --chart-2: oklch(0.7937 0.1079 60.63);
   --chart-3: oklch(0.8701 0.0528 186.18);
   --chart-4: oklch(0.8037 0.0753 62.62);
   --chart-5: oklch(0.8547 0.0243 248.11);
   --sidebar: oklch(0.23 0.012 17.2);
   --sidebar-foreground: oklch(0.97 0.004 17.2);
-  --sidebar-primary: oklch(0.6346 0.2018 25.52);
-  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(0.7534 0.1367 235.28);
+  --sidebar-primary-foreground: oklch(0.15 0.01 235.28);
   --sidebar-accent: oklch(0.28 0.014 17.2);
   --sidebar-accent-foreground: oklch(0.97 0.004 17.2);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.6346 0.2018 25.52);
+  --sidebar-ring: oklch(0.7534 0.1367 235.28);
 
   --sale: oklch(0.6346 0.2018 25.52);
   --sale-foreground: oklch(1 0 0);
