@@ -145,13 +145,8 @@ export function CartDrawer() {
       <div
         aria-hidden="true"
         onClick={closeCart}
-        // top-0 + h-screen (não inset-0/bottom-0): a borda inferior "bottom:0"
-        // de um elemento fixed é recalculada toda vez que a barra de endereço
-        // do Safari real do iOS anima, e fica pra trás — igual o site
-        // concorrente (lojaherafit.com) faz, evitamos "bottom" e fixamos só
-        // "top" + uma altura resolvida uma vez (h-screen/h-full).
         className={cn(
-          "fixed top-0 left-0 z-50 h-screen w-screen bg-black/80 transition-[opacity,visibility] ease-in-out",
+          "fixed inset-0 z-50 bg-black/80 transition-[opacity,visibility] ease-in-out",
           isOpen ? "duration-500 opacity-100" : "invisible duration-300 opacity-0",
         )}
       />
@@ -164,7 +159,7 @@ export function CartDrawer() {
         // esse fica fixo em translateZ(0) por causa do transform-gpu), por
         // isso é "translate" que precisa estar listado aqui, não "transform".
         className={cn(
-          "fixed top-0 right-0 z-50 flex h-full max-h-screen w-full transform-gpu flex-col gap-0 bg-background shadow-lg transition-[translate,visibility] ease-in-out sm:max-w-md",
+          "fixed inset-y-0 right-0 z-50 flex w-full transform-gpu flex-col gap-0 bg-background shadow-lg transition-[translate,visibility] ease-in-out sm:max-w-md",
           isOpen ? "duration-500 translate-x-0" : "invisible duration-300 translate-x-full",
         )}
       >
