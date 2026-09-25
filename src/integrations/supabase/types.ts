@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      pixel_settings: {
+        Row: {
+          id: number
+          password_hash: string | null
+          tiktok_access_token: string | null
+          tiktok_pixel_id: string | null
+          updated_at: string
+          utmify_html: string | null
+        }
+        Insert: {
+          id?: number
+          password_hash?: string | null
+          tiktok_access_token?: string | null
+          tiktok_pixel_id?: string | null
+          updated_at?: string
+          utmify_html?: string | null
+        }
+        Update: {
+          id?: number
+          password_hash?: string | null
+          tiktok_access_token?: string | null
+          tiktok_pixel_id?: string | null
+          updated_at?: string
+          utmify_html?: string | null
+        }
+        Relationships: []
+      }
+      zedy_webhook_events: {
+        Row: {
+          event_type: string
+          order_id: string
+          payload: Json
+          processed_at: string
+        }
+        Insert: {
+          event_type: string
+          order_id: string
+          payload: Json
+          processed_at?: string
+        }
+        Update: {
+          event_type?: string
+          order_id?: string
+          payload?: Json
+          processed_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
