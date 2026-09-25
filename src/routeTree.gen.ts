@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as FaleConoscoRouteImport } from './routes/fale-conosco'
 import { Route as FreteEEntregaRouteImport } from './routes/frete-e-entrega'
 import { Route as PixelRouteImport } from './routes/pixel'
@@ -23,11 +22,6 @@ import { Route as ApiWebhooksZedyRouteImport } from './routes/api/webhooks/zedy'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CarrinhoRoute = CarrinhoRouteImport.update({
-  id: '/carrinho',
-  path: '/carrinho',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaleConoscoRoute = FaleConoscoRouteImport.update({
@@ -73,7 +67,6 @@ const ApiWebhooksZedyRoute = ApiWebhooksZedyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/carrinho': typeof CarrinhoRoute
   '/fale-conosco': typeof FaleConoscoRoute
   '/frete-e-entrega': typeof FreteEEntregaRoute
   '/pixel': typeof PixelRoute
@@ -85,7 +78,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/carrinho': typeof CarrinhoRoute
   '/fale-conosco': typeof FaleConoscoRoute
   '/frete-e-entrega': typeof FreteEEntregaRoute
   '/pixel': typeof PixelRoute
@@ -98,7 +90,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/carrinho': typeof CarrinhoRoute
   '/fale-conosco': typeof FaleConoscoRoute
   '/frete-e-entrega': typeof FreteEEntregaRoute
   '/pixel': typeof PixelRoute
@@ -112,7 +103,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/carrinho'
     | '/fale-conosco'
     | '/frete-e-entrega'
     | '/pixel'
@@ -124,7 +114,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/carrinho'
     | '/fale-conosco'
     | '/frete-e-entrega'
     | '/pixel'
@@ -136,7 +125,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/carrinho'
     | '/fale-conosco'
     | '/frete-e-entrega'
     | '/pixel'
@@ -149,7 +137,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CarrinhoRoute: typeof CarrinhoRoute
   FaleConoscoRoute: typeof FaleConoscoRoute
   FreteEEntregaRoute: typeof FreteEEntregaRoute
   PixelRoute: typeof PixelRoute
@@ -167,13 +154,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/carrinho': {
-      id: '/carrinho'
-      path: '/carrinho'
-      fullPath: '/carrinho'
-      preLoaderRoute: typeof CarrinhoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fale-conosco': {
@@ -237,7 +217,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CarrinhoRoute: CarrinhoRoute,
   FaleConoscoRoute: FaleConoscoRoute,
   FreteEEntregaRoute: FreteEEntregaRoute,
   PixelRoute: PixelRoute,
