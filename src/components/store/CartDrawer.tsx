@@ -1,26 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Loader2, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { Loader2, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
 import { getProductBySlug } from "@/lib/products";
 import { trackMetaPixelEvent, trackPixelEvent, trackTikTokEvent } from "@/lib/tracking";
+import { cn } from "@/lib/utils";
 import { createZedyCheckout } from "@/lib/zedy";
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalPrice, totalItems } =
     useCart();
   const [checkingOut, setCheckingOut] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Fica sempre no DOM (nunca é desmontada), animando só via transform/opacity.
+  // Um site concorrente (lojaherafit.com, tema Shopify) usa exatamente essa
+  // técnica e não sofre do vão no topo/base no Safari do iOS. A gaveta que
+  // desmonta/remonta a cada abertura (como o Radix Dialog fazia aqui antes)
+  // é medida bem no instante em que o toque abre a gaveta — se a barra de
+  // endereço do iOS ainda estiver animando nesse instante, a altura calculada
+  // fica errada. Mantendo o elemento sempre presente, o layout já está
+  // resolvido contra um viewport estável antes de qualquer abertura.
 
   // Trava a posição do body enquanto a gaveta está aberta (não só
-  // overflow:hidden). Sem isso o Safari do iOS pode continuar animando a
-  // barra de endereço com o fundo da página "roubando" scroll por baixo da
-  // gaveta, e qualquer altura calculada pra gaveta fica correndo atrás de
-  // uma barra que ainda está se movendo — daí o vão persistente no topo/base.
+  // overflow:hidden), pra evitar que o fundo da página "roube" scroll por
+  // baixo da gaveta enquanto a barra de endereço do iOS anima.
   useEffect(() => {
     if (!isOpen) return;
     const { body } = document;
@@ -46,6 +54,39 @@ export function CartDrawer() {
       window.scrollTo(0, scrollY);
     };
   }, [isOpen]);
+
+  // Substitui o focus trap + Escape que o Radix Dialog dava de graça, já que
+  // a gaveta deixou de usar o Dialog do Radix (forceMount quebrava o
+  // bloqueio de scroll dele, que fica sempre ativo independente do estado
+  // aberto/fechado nesta versão da lib).
+  useEffect(() => {
+    if (!isOpen) return;
+    const panel = panelRef.current;
+    panel?.querySelector<HTMLElement>("button, a[href]")?.focus();
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        closeCart();
+        return;
+      }
+      if (event.key !== "Tab" || !panel) return;
+      const focusable = panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0]!;
+      const last = focusable[focusable.length - 1]!;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, closeCart]);
 
   async function handleCheckout() {
     if (items.length === 0) return;
@@ -100,13 +141,38 @@ export function CartDrawer() {
   }
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => (open ? undefined : closeCart())}>
-      <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
-        <SheetHeader className="border-b border-border px-5 py-4">
-          <SheetTitle className="flex items-center gap-2 text-base font-extrabold font-display">
+    <>
+      <div
+        aria-hidden="true"
+        onClick={closeCart}
+        className={cn(
+          "fixed inset-0 z-50 bg-black/80 transition-opacity ease-in-out",
+          isOpen ? "duration-500 opacity-100" : "invisible duration-300 opacity-0",
+        )}
+      />
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Sua sacola"
+        className={cn(
+          "fixed inset-y-0 right-0 z-50 flex w-full transform-gpu flex-col gap-0 bg-background shadow-lg transition-transform ease-in-out sm:max-w-md",
+          isOpen ? "duration-500 translate-x-0" : "invisible duration-300 translate-x-full",
+        )}
+      >
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+          <p className="flex items-center gap-2 text-base font-extrabold font-display">
             <ShoppingBag className="size-5" /> Sua sacola
-          </SheetTitle>
-        </SheetHeader>
+          </p>
+          <button
+            type="button"
+            aria-label="Fechar"
+            onClick={closeCart}
+            className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
 
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
@@ -215,7 +281,7 @@ export function CartDrawer() {
             </div>
           </>
         )}
-      </SheetContent>
-    </Sheet>
+      </div>
+    </>
   );
 }
