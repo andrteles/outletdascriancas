@@ -5,7 +5,7 @@ import { ChevronRight, ShieldCheck, Truck } from "lucide-react";
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
-import { formatInstallments, formatPixPrice, formatPrice } from "@/lib/format";
+import { formatInstallmentsComJuros, formatPixPrice, formatPrice } from "@/lib/format";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
@@ -126,7 +126,8 @@ function ProductPage() {
             ) : null}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            {formatInstallments(product.price)} · ou {formatPixPrice(product.price)} no Pix
+            {formatInstallmentsComJuros(product.price, 6)} · ou {formatPixPrice(product.price)} no
+            Pix
           </p>
 
           <div className="mt-6">
@@ -166,7 +167,7 @@ function ProductPage() {
 
           <div className="mt-6 flex flex-col gap-2 border-t border-border pt-4 text-sm text-muted-foreground">
             <p className="flex items-center gap-2">
-              <Truck className="size-4 shrink-0" /> Frete grátis acima de R$ 199
+              <Truck className="size-4 shrink-0" /> Frete grátis para todo o Brasil
             </p>
             <p className="flex items-center gap-2">
               <ShieldCheck className="size-4 shrink-0" /> Produto original Carter's, com garantia de
