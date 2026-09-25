@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 
 import { categories } from "@/lib/products";
-import { useCart } from "@/lib/cart";
 
 const navLinks = [
   { label: "Promoções", search: { ordenar: "maior-desconto" as const } },
@@ -16,7 +15,6 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-  const { itemCount, openCart } = useCart();
 
   function handleSearch(event: React.FormEvent) {
     event.preventDefault();
@@ -54,20 +52,6 @@ export function Header() {
               className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
           </form>
-
-          <button
-            type="button"
-            onClick={openCart}
-            aria-label="Abrir sacola"
-            className="relative grid size-9 shrink-0 place-items-center rounded-full text-foreground hover:bg-secondary"
-          >
-            <ShoppingBag className="size-5" />
-            {itemCount > 0 ? (
-              <span className="absolute -top-1 -right-1 grid size-4.5 place-items-center rounded-full bg-primary text-[10px] font-bold text-white">
-                {itemCount}
-              </span>
-            ) : null}
-          </button>
         </div>
 
         {menuOpen ? (
