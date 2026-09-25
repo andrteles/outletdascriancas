@@ -66,6 +66,7 @@ export function filterProducts(filters: ProductFilters): Product[] {
       list.sort((a, b) => (b.discountPercent ?? 0) - (a.discountPercent ?? 0));
       break;
     default:
+      list.sort((a, b) => (b.discountPercent ?? 0) - (a.discountPercent ?? 0));
       list.sort((a, b) => sortPriority(a) - sortPriority(b));
       break;
   }

@@ -43,7 +43,7 @@ function ProductsPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const faixaAtiva = search.faixa === "todas" ? undefined : (search.faixa ?? "Bebê");
+  const faixaAtiva = search.faixa;
   const results = filterProducts({ ...search, faixa: faixaAtiva });
 
   const totalPages = Math.max(1, Math.ceil(results.length / PRODUCTS_PER_PAGE));
@@ -97,7 +97,7 @@ function ProductsPage() {
               <div className="flex flex-col gap-1 text-sm">
                 <button
                   type="button"
-                  onClick={() => updateSearch({ faixa: "todas" })}
+                  onClick={() => updateSearch({ faixa: undefined })}
                   className={cn(
                     "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
                     !faixaAtiva && "bg-secondary font-semibold",
