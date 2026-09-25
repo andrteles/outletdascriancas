@@ -38,11 +38,10 @@ export const Route = createFileRoute("/produtos/")({
   component: ProductsPage,
 });
 
-const sortLabels: Record<SortOption, string> = {
+const sortLabels: Partial<Record<SortOption, string>> = {
   relevancia: "Relevância",
   "menor-preco": "Menor preço",
   "maior-preco": "Maior preço",
-  "maior-desconto": "Maior desconto",
 };
 
 function ProductsPage() {
@@ -172,7 +171,7 @@ function ProductsPage() {
             </label>
             <select
               id="ordenar"
-              value={search.ordenar ?? "relevancia"}
+              value={search.ordenar && sortLabels[search.ordenar] ? search.ordenar : "relevancia"}
               onChange={(event) => updateSearch({ ordenar: event.target.value as SortOption })}
               className="rounded-md border border-input bg-background px-2 py-1.5"
             >
