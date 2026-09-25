@@ -42,11 +42,39 @@ export function Footer() {
           <p className="mb-3 text-xs font-bold tracking-wide text-muted-foreground uppercase">
             Ajuda
           </p>
-          <ul className="space-y-2 text-sm text-foreground">
-            <li>Trocas e devoluções</li>
-            <li>Frete e entrega</li>
-            <li>Guia de tamanhos</li>
-            <li>Fale conosco</li>
+          <ul className="space-y-2 text-sm">
+            <li>
+              <Link
+                to="/trocas-e-devolucoes"
+                className="text-foreground transition-colors hover:text-primary"
+              >
+                Trocas e devoluções
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/frete-e-entrega"
+                className="text-foreground transition-colors hover:text-primary"
+              >
+                Frete e entrega
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/politica-de-privacidade"
+                className="text-foreground transition-colors hover:text-primary"
+              >
+                Política de privacidade
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/fale-conosco"
+                className="text-foreground transition-colors hover:text-primary"
+              >
+                Fale conosco
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

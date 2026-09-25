@@ -11,6 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
+import { Route as FaleConoscoRouteImport } from './routes/fale-conosco'
+import { Route as FreteEEntregaRouteImport } from './routes/frete-e-entrega'
+import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
+import { Route as TrocasEDevolucoesRouteImport } from './routes/trocas-e-devolucoes'
 import { Route as ProdutosIndexRouteImport } from './routes/produtos/index'
 import { Route as ProdutosSlugRouteImport } from './routes/produtos/$slug'
 
@@ -22,6 +26,26 @@ const IndexRoute = IndexRouteImport.update({
 const CarrinhoRoute = CarrinhoRouteImport.update({
   id: '/carrinho',
   path: '/carrinho',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaleConoscoRoute = FaleConoscoRouteImport.update({
+  id: '/fale-conosco',
+  path: '/fale-conosco',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FreteEEntregaRoute = FreteEEntregaRouteImport.update({
+  id: '/frete-e-entrega',
+  path: '/frete-e-entrega',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaDePrivacidadeRoute = PoliticaDePrivacidadeRouteImport.update({
+  id: '/politica-de-privacidade',
+  path: '/politica-de-privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrocasEDevolucoesRoute = TrocasEDevolucoesRouteImport.update({
+  id: '/trocas-e-devolucoes',
+  path: '/trocas-e-devolucoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProdutosIndexRoute = ProdutosIndexRouteImport.update({
@@ -38,12 +62,20 @@ const ProdutosSlugRoute = ProdutosSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/carrinho': typeof CarrinhoRoute
+  '/fale-conosco': typeof FaleConoscoRoute
+  '/frete-e-entrega': typeof FreteEEntregaRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos/': typeof ProdutosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/carrinho': typeof CarrinhoRoute
+  '/fale-conosco': typeof FaleConoscoRoute
+  '/frete-e-entrega': typeof FreteEEntregaRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos': typeof ProdutosIndexRoute
 }
@@ -51,20 +83,53 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/carrinho': typeof CarrinhoRoute
+  '/fale-conosco': typeof FaleConoscoRoute
+  '/frete-e-entrega': typeof FreteEEntregaRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos/': typeof ProdutosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/carrinho' | '/produtos/$slug' | '/produtos/'
+  fullPaths:
+    | '/'
+    | '/carrinho'
+    | '/fale-conosco'
+    | '/frete-e-entrega'
+    | '/politica-de-privacidade'
+    | '/trocas-e-devolucoes'
+    | '/produtos/$slug'
+    | '/produtos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/carrinho' | '/produtos/$slug' | '/produtos'
-  id: '__root__' | '/' | '/carrinho' | '/produtos/$slug' | '/produtos/'
+  to:
+    | '/'
+    | '/carrinho'
+    | '/fale-conosco'
+    | '/frete-e-entrega'
+    | '/politica-de-privacidade'
+    | '/trocas-e-devolucoes'
+    | '/produtos/$slug'
+    | '/produtos'
+  id:
+    | '__root__'
+    | '/'
+    | '/carrinho'
+    | '/fale-conosco'
+    | '/frete-e-entrega'
+    | '/politica-de-privacidade'
+    | '/trocas-e-devolucoes'
+    | '/produtos/$slug'
+    | '/produtos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CarrinhoRoute: typeof CarrinhoRoute
+  FaleConoscoRoute: typeof FaleConoscoRoute
+  FreteEEntregaRoute: typeof FreteEEntregaRoute
+  PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
+  TrocasEDevolucoesRoute: typeof TrocasEDevolucoesRoute
   ProdutosSlugRoute: typeof ProdutosSlugRoute
   ProdutosIndexRoute: typeof ProdutosIndexRoute
 }
@@ -83,6 +148,34 @@ declare module '@tanstack/react-router' {
       path: '/carrinho'
       fullPath: '/carrinho'
       preLoaderRoute: typeof CarrinhoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fale-conosco': {
+      id: '/fale-conosco'
+      path: '/fale-conosco'
+      fullPath: '/fale-conosco'
+      preLoaderRoute: typeof FaleConoscoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/frete-e-entrega': {
+      id: '/frete-e-entrega'
+      path: '/frete-e-entrega'
+      fullPath: '/frete-e-entrega'
+      preLoaderRoute: typeof FreteEEntregaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-de-privacidade': {
+      id: '/politica-de-privacidade'
+      path: '/politica-de-privacidade'
+      fullPath: '/politica-de-privacidade'
+      preLoaderRoute: typeof PoliticaDePrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trocas-e-devolucoes': {
+      id: '/trocas-e-devolucoes'
+      path: '/trocas-e-devolucoes'
+      fullPath: '/trocas-e-devolucoes'
+      preLoaderRoute: typeof TrocasEDevolucoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/produtos/': {
@@ -105,6 +198,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CarrinhoRoute: CarrinhoRoute,
+  FaleConoscoRoute: FaleConoscoRoute,
+  FreteEEntregaRoute: FreteEEntregaRoute,
+  PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
+  TrocasEDevolucoesRoute: TrocasEDevolucoesRoute,
   ProdutosSlugRoute: ProdutosSlugRoute,
   ProdutosIndexRoute: ProdutosIndexRoute,
 }
