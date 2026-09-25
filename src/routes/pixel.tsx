@@ -81,7 +81,15 @@ function SetupPasswordForm({ onDone }: { onDone: () => void }) {
       return;
     }
     setLoading(true);
-    const result = await setInitialPixelPassword({ data: { password } });
+    let result: Awaited<ReturnType<typeof setInitialPixelPassword>>;
+    try {
+      result = await setInitialPixelPassword({ data: { password } });
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro de conexão com o servidor. Tente novamente.");
+      setLoading(false);
+      return;
+    }
     setLoading(false);
     if (!result.ok) {
       toast.error("Não foi possível salvar a senha. Tente novamente.");
@@ -134,7 +142,15 @@ function LoginForm({ onDone }: { onDone: () => void }) {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true);
-    const result = await loginPixel({ data: { password } });
+    let result: Awaited<ReturnType<typeof loginPixel>>;
+    try {
+      result = await loginPixel({ data: { password } });
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro de conexão com o servidor. Tente novamente.");
+      setLoading(false);
+      return;
+    }
     setLoading(false);
     if (!result.ok) {
       toast.error("Senha incorreta.");
@@ -183,9 +199,17 @@ function SettingsForm({
   async function handleSave(event: React.FormEvent) {
     event.preventDefault();
     setSaving(true);
-    const result = await savePixelSettings({
+    let result: Awaited<ReturnType<typeof savePixelSettings>>;
+    try {
+      result = await savePixelSettings({
       data: { utmifyHtml, tiktokPixelId, tiktokAccessToken },
     });
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro de conexão com o servidor. Tente novamente.");
+      setSaving(false);
+      return;
+    }
     setSaving(false);
     if (!result.ok) {
       toast.error("Não foi possível salvar as configurações.");
@@ -294,7 +318,15 @@ function ChangePasswordForm({ onDone }: { onDone: () => void }) {
       return;
     }
     setLoading(true);
-    const result = await changePixelPassword({ data: { currentPassword, newPassword } });
+    let result: Awaited<ReturnType<typeof changePixelPassword>>;
+    try {
+      result = await changePixelPassword({ data: { currentPassword, newPassword } });
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro de conexão com o servidor. Tente novamente.");
+      setLoading(false);
+      return;
+    }
     setLoading(false);
     if (!result.ok) {
       toast.error("Senha atual incorreta.");
