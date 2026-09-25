@@ -26,27 +26,11 @@ export function CartDrawer() {
   // fica errada. Mantendo o elemento sempre presente, o layout já está
   // resolvido contra um viewport estável antes de qualquer abertura.
 
-  // Só destrava o scroll do body depois que a animação de fechar termina
-  // (mesma duração do duration-300 usado no fechamento), não no instante do
-  // clique. Destravar na hora expõe o reajuste da página (e da barra de
-  // endereço do Safari) enquanto a gaveta ainda está visível deslizando pra
-  // fora — foi isso que causava o vão reaparecer sempre que a gaveta ganhava
-  // efeito de saída.
-  const [scrollLocked, setScrollLocked] = useState(false);
-  useEffect(() => {
-    if (isOpen) {
-      setScrollLocked(true);
-      return;
-    }
-    const timeout = setTimeout(() => setScrollLocked(false), 300);
-    return () => clearTimeout(timeout);
-  }, [isOpen]);
-
-  // Trava a posição do body enquanto a gaveta está aberta ou fechando (não só
+  // Trava a posição do body enquanto a gaveta está aberta (não só
   // overflow:hidden), pra evitar que o fundo da página "roube" scroll por
   // baixo da gaveta enquanto a barra de endereço do iOS anima.
   useEffect(() => {
-    if (!scrollLocked) return;
+    if (!isOpen) return;
     const { body } = document;
     const scrollY = window.scrollY;
     const original = {
@@ -69,7 +53,7 @@ export function CartDrawer() {
       body.style.width = original.width;
       window.scrollTo(0, scrollY);
     };
-  }, [scrollLocked]);
+  }, [isOpen]);
 
   // Substitui o focus trap + Escape que o Radix Dialog dava de graça, já que
   // a gaveta deixou de usar o Dialog do Radix (forceMount quebrava o
@@ -162,7 +146,7 @@ export function CartDrawer() {
         aria-hidden="true"
         onClick={closeCart}
         className={cn(
-          "fixed inset-0 z-50 bg-black/80 transition-[opacity,visibility] ease-in-out",
+          "fixed inset-0 z-50 bg-black/80 transition-opacity ease-in-out",
           isOpen ? "duration-500 opacity-100" : "invisible duration-300 opacity-0",
         )}
       />
@@ -171,11 +155,8 @@ export function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Sua sacola"
-        // translate-x-* mexe na propriedade CSS "translate" (não "transform" —
-        // esse fica fixo em translateZ(0) por causa do transform-gpu), por
-        // isso é "translate" que precisa estar listado aqui, não "transform".
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-full transform-gpu flex-col gap-0 bg-background shadow-lg transition-[translate,visibility] ease-in-out sm:max-w-md",
+          "fixed inset-y-0 right-0 z-50 flex w-full transform-gpu flex-col gap-0 bg-background shadow-lg transition-transform ease-in-out sm:max-w-md",
           isOpen ? "duration-500 translate-x-0" : "invisible duration-300 translate-x-full",
         )}
       >
