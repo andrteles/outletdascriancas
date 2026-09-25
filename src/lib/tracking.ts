@@ -12,7 +12,9 @@ export async function fetchPixelRow() {
   // Rastreamento é opcional: se o banco não estiver configurado ou falhar,
   // a loja continua funcionando sem pixel em vez de quebrar a página.
   try {
-    const { data, error } = await getSupabaseAdmin()
+    const admin = getSupabaseAdmin();
+    if (!admin) return null;
+    const { data, error } = await admin
       .from("pixel_settings")
       .select("utmify_html, tiktok_pixel_id, tiktok_access_token")
       .eq("id", 1)
