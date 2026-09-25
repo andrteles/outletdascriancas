@@ -70,7 +70,12 @@ export const loginPixel = createServerFn({ method: "POST" })
   });
 
 export const logoutPixel = createServerFn({ method: "POST" }).handler(async () => {
-  deleteCookie(PIXEL_SESSION_COOKIE, { path: "/" });
+  deleteCookie(PIXEL_SESSION_COOKIE, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+  });
 });
 
 export const getPixelSettings = createServerFn({ method: "GET" }).handler(async () => {
