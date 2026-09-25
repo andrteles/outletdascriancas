@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Loader2, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -15,6 +15,37 @@ export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalPrice, totalItems } =
     useCart();
   const [checkingOut, setCheckingOut] = useState(false);
+
+  // Trava a posição do body enquanto a gaveta está aberta (não só
+  // overflow:hidden). Sem isso o Safari do iOS pode continuar animando a
+  // barra de endereço com o fundo da página "roubando" scroll por baixo da
+  // gaveta, e qualquer altura calculada pra gaveta fica correndo atrás de
+  // uma barra que ainda está se movendo — daí o vão persistente no topo/base.
+  useEffect(() => {
+    if (!isOpen) return;
+    const { body } = document;
+    const scrollY = window.scrollY;
+    const original = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    return () => {
+      body.style.position = original.position;
+      body.style.top = original.top;
+      body.style.left = original.left;
+      body.style.right = original.right;
+      body.style.width = original.width;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
 
   async function handleCheckout() {
     if (items.length === 0) return;
