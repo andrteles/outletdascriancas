@@ -1,4 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { SlidersHorizontal } from "lucide-react";
+import { useState } from "react";
 import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
@@ -40,6 +42,7 @@ const sortLabels: Record<SortOption, string> = {
 function ProductsPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const faixaAtiva = search.faixa === "todas" ? undefined : (search.faixa ?? "Bebê");
   const results = filterProducts({ ...search, faixa: faixaAtiva });
 
@@ -71,66 +74,82 @@ function ProductsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[220px_1fr]">
-        <aside className="flex flex-col gap-6">
-          <div>
-            <p className="mb-2 text-xs font-bold tracking-wide text-muted-foreground uppercase">
-              Faixa etária
-            </p>
-            <div className="flex flex-col gap-1 text-sm">
-              <button
-                type="button"
-                onClick={() => updateSearch({ faixa: "todas" })}
-                className={cn(
-                  "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
-                  !faixaAtiva && "bg-secondary font-semibold",
-                )}
-              >
-                Todas
-              </button>
-              {ageGroups.map((faixa) => (
-                <button
-                  key={faixa}
-                  type="button"
-                  onClick={() => updateSearch({ faixa })}
-                  className={cn(
-                    "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
-                    faixaAtiva === faixa && "bg-secondary font-semibold",
-                  )}
-                >
-                  {faixa}
-                </button>
-              ))}
-            </div>
-          </div>
+        <aside className="flex flex-col gap-4 md:gap-6">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((open) => !open)}
+            className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm font-semibold md:hidden"
+          >
+            <span className="flex items-center gap-2">
+              <SlidersHorizontal className="size-4" />
+              Filtros
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {filtersOpen ? "Ocultar" : "Mostrar"}
+            </span>
+          </button>
 
-          <div>
-            <p className="mb-2 text-xs font-bold tracking-wide text-muted-foreground uppercase">
-              Categoria
-            </p>
-            <div className="flex flex-col gap-1 text-sm">
-              <button
-                type="button"
-                onClick={() => updateSearch({ categoria: undefined })}
-                className={cn(
-                  "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
-                  !search.categoria && "bg-secondary font-semibold",
-                )}
-              >
-                Todas
-              </button>
-              {categories.map((categoria) => (
+          <div className={cn("flex-col gap-6", filtersOpen ? "flex" : "hidden", "md:flex")}>
+            <div>
+              <p className="mb-2 text-xs font-bold tracking-wide text-muted-foreground uppercase">
+                Faixa etária
+              </p>
+              <div className="flex flex-col gap-1 text-sm">
                 <button
-                  key={categoria}
                   type="button"
-                  onClick={() => updateSearch({ categoria })}
+                  onClick={() => updateSearch({ faixa: "todas" })}
                   className={cn(
                     "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
-                    search.categoria === categoria && "bg-secondary font-semibold",
+                    !faixaAtiva && "bg-secondary font-semibold",
                   )}
                 >
-                  {categoria}
+                  Todas
                 </button>
-              ))}
+                {ageGroups.map((faixa) => (
+                  <button
+                    key={faixa}
+                    type="button"
+                    onClick={() => updateSearch({ faixa })}
+                    className={cn(
+                      "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
+                      faixaAtiva === faixa && "bg-secondary font-semibold",
+                    )}
+                  >
+                    {faixa}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="mb-2 text-xs font-bold tracking-wide text-muted-foreground uppercase">
+                Categoria
+              </p>
+              <div className="flex flex-col gap-1 text-sm">
+                <button
+                  type="button"
+                  onClick={() => updateSearch({ categoria: undefined })}
+                  className={cn(
+                    "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
+                    !search.categoria && "bg-secondary font-semibold",
+                  )}
+                >
+                  Todas
+                </button>
+                {categories.map((categoria) => (
+                  <button
+                    key={categoria}
+                    type="button"
+                    onClick={() => updateSearch({ categoria })}
+                    className={cn(
+                      "rounded-md px-2 py-1.5 text-left hover:bg-secondary",
+                      search.categoria === categoria && "bg-secondary font-semibold",
+                    )}
+                  >
+                    {categoria}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </aside>
