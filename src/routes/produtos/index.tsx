@@ -4,7 +4,13 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
-import { ageGroups, categories, filterProducts, type SortOption } from "@/lib/products";
+import {
+  ageGroups,
+  applyShowcaseSubstitutions,
+  categories,
+  filterProducts,
+  type SortOption,
+} from "@/lib/products";
 import { getPageNumbers } from "@/lib/pagination";
 import { cn } from "@/lib/utils";
 
@@ -43,11 +49,18 @@ function ProductsPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const [filtersOpen, setFiltersOpen] = useState(false);
   const faixaAtiva = search.faixa;
+  const isDefaultView =
+    !search.categoria &&
+    !faixaAtiva &&
+    !search.busca &&
+    (!search.ordenar || search.ordenar === "relevancia");
   const results = filterProducts({ ...search, faixa: faixaAtiva });
 
   const totalPages = Math.max(1, Math.ceil(results.length / PRODUCTS_PER_PAGE));
   const currentPage = Math.min(search.pagina ?? 1, totalPages);
-  const paginatedResults = results.slice(
+  const vitrine =
+    currentPage === 1 && isDefaultView ? applyShowcaseSubstitutions(results) : results;
+  const paginatedResults = vitrine.slice(
     (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage * PRODUCTS_PER_PAGE,
   );

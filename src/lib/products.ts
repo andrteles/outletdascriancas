@@ -65,21 +65,12 @@ export function filterProducts(filters: ProductFilters): Product[] {
       list.sort((a, b) => b.price - a.price);
       break;
     case "maior-desconto":
-      list.sort((a, b) => (b.discountPercent ?? 0) - (a.discountPercent ?? 0));
-      break;
     default:
       list.sort((a, b) => (b.discountPercent ?? 0) - (a.discountPercent ?? 0));
-      list.sort((a, b) => sortPriority(a) - sortPriority(b));
       break;
   }
 
   return list;
-}
-
-function sortPriority(product: Product): number {
-  if (product.title.toLowerCase().includes("caixa")) return 2;
-  if (product.category === "Acessórios") return 1;
-  return 0;
 }
 
 // Destaques manuais da vitrine: cada par troca, no lugar exato do produto
