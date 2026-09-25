@@ -1,3 +1,4 @@
+import type React from "react";
 import {
   createContext,
   useCallback,
@@ -29,7 +30,25 @@ interface CartContextValue {
   totalPrice: number;
 }
 
-const CartContext = createContext<CartContextValue | null>(null);
+// Keep a single context instance across hot reloads so provider/consumers never split.
+const globalKey = "__gavetaCartContext__";
+const g = globalThis as unknown as Record<string, React.Context<CartContextValue | null>>;
+const CartContext: React.Context<CartContextValue | null> =
+  g[globalKey] ?? (g[globalKey] = createContext<CartContextValue | null>(null));
+
+const noop = () => {};
+const fallbackCart: CartContextValue = {
+  items: [],
+  isOpen: false,
+  openCart: noop,
+  closeCart: noop,
+  addItem: noop,
+  removeItem: noop,
+  updateQuantity: noop,
+  clear: noop,
+  totalItems: 0,
+  totalPrice: 0,
+};
 
 const STORAGE_KEY = "gaveta-cart";
 
@@ -131,7 +150,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart(): CartContextValue {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("useCart deve ser usado dentro de CartProvider");
+    console.warn("useCart usado fora de CartProvider — usando sacola vazia.");
+    return fallbackCart;
   }
   return context;
 }
