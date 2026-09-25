@@ -1,12 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronRight, Loader2, ShieldCheck, Truck } from "lucide-react";
+import { ChevronRight, ShieldCheck, Truck } from "lucide-react";
 import { toast } from "sonner";
 
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/lib/cart";
 import { formatInstallmentsComJuros, formatPixPrice, formatPrice } from "@/lib/format";
-import { createZedyCheckout } from "@/lib/zedy";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
@@ -47,23 +47,15 @@ function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [sizeError, setSizeError] = useState(false);
-  const [checkingOut, setCheckingOut] = useState(false);
+  const { addItem } = useCart();
 
-  async function handleBuyNow() {
+  function handleAddToCart() {
     if (!selectedSize) {
       setSizeError(true);
       return;
     }
-    setCheckingOut(true);
-    const result = await createZedyCheckout({
-      data: { items: [{ slug: product.slug, size: selectedSize, quantity: 1 }] },
-    });
-    setCheckingOut(false);
-    if (!result.ok) {
-      toast.error("Não foi possível iniciar o checkout. Tente novamente.");
-      return;
-    }
-    window.location.href = result.checkoutUrl;
+    addItem(product.slug, selectedSize, 1);
+    toast.success("Adicionado à sacola");
   }
 
   return (
@@ -167,11 +159,10 @@ function ProductPage() {
 
           <Button
             size="lg"
-            disabled={checkingOut}
             className="mt-6 w-full text-white font-bold uppercase"
-            onClick={handleBuyNow}
+            onClick={handleAddToCart}
           >
-            {checkingOut ? <Loader2 className="size-5 animate-spin" /> : "Adicionar à sacola"}
+            Adicionar à sacola
           </Button>
 
           <div className="mt-6 flex flex-col gap-2 border-t border-border pt-4 text-sm text-muted-foreground">
