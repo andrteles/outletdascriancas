@@ -59,7 +59,7 @@ export const setInitialPixelPassword = createServerFn({ method: "POST" })
     const row = await fetchRow();
     if (row.password_hash) return { ok: false as const, reason: "already-set" as const };
     const password_hash = await bcrypt.hash(data.password, 10);
-    const { error } = await getSupabaseAdmin()
+    const { error } = await requireAdmin()
       .from("pixel_settings")
       .update({ password_hash })
       .eq("id", 1);
@@ -99,7 +99,7 @@ export const savePixelSettings = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     await requireSession();
-    const { error } = await getSupabaseAdmin()
+    const { error } = await requireAdmin()
       .from("pixel_settings")
       .update({
         utmify_html: data.utmifyHtml || null,
@@ -121,7 +121,7 @@ export const changePixelPassword = createServerFn({ method: "POST" })
       return { ok: false as const, reason: "wrong-password" as const };
     }
     const password_hash = await bcrypt.hash(data.newPassword, 10);
-    const { error } = await getSupabaseAdmin()
+    const { error } = await requireAdmin()
       .from("pixel_settings")
       .update({ password_hash })
       .eq("id", 1);
