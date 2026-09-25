@@ -25,15 +25,19 @@ async function requireSession() {
   if (!valid) throw new Error("unauthorized");
 }
 
+/** Secure só em produção: em http://localhost o Chrome cria cookies Secure normalmente,
+ * mas se recusa a sobrescrevê-los/apagá-los fora de uma conexão https real, o que quebrava
+ * o logout em desenvolvimento. */
+const PIXEL_COOKIE_OPTS = {
+  httpOnly: true,
+  secure: process.env["NODE_ENV"] === "production",
+  sameSite: "lax" as const,
+  path: "/",
+};
+
 async function openSession() {
   const token = await createPixelSessionToken();
-  setCookie(PIXEL_SESSION_COOKIE, token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 12,
-  });
+  setCookie(PIXEL_SESSION_COOKIE, token, { ...PIXEL_COOKIE_OPTS, maxAge: 60 * 60 * 12 });
 }
 
 export const getPixelAuthState = createServerFn({ method: "GET" }).handler(async () => {
@@ -70,12 +74,7 @@ export const loginPixel = createServerFn({ method: "POST" })
   });
 
 export const logoutPixel = createServerFn({ method: "POST" }).handler(async () => {
-  deleteCookie(PIXEL_SESSION_COOKIE, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-  });
+  deleteCookie(PIXEL_SESSION_COOKIE, PIXEL_COOKIE_OPTS);
 });
 
 export const getPixelSettings = createServerFn({ method: "GET" }).handler(async () => {
