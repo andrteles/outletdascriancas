@@ -201,7 +201,7 @@ function ProductPage() {
 
           <Button
             size="lg"
-            className="mt-6 w-full text-white font-bold uppercase"
+            className="mt-6 w-full bg-[#3BAE8A] text-white font-bold uppercase hover:bg-[#3BAE8A]/90"
             onClick={handleAddToCart}
           >
             Adicionar à sacola
