@@ -171,7 +171,7 @@ function ProductPage() {
             className="mt-6 w-full text-white font-bold uppercase"
             onClick={handleBuyNow}
           >
-            {checkingOut ? <Loader2 className="size-5 animate-spin" /> : "Comprar agora"}
+            {checkingOut ? <Loader2 className="size-5 animate-spin" /> : "Adicionar à sacola"}
           </Button>
 
           <div className="mt-6 flex flex-col gap-2 border-t border-border pt-4 text-sm text-muted-foreground">
