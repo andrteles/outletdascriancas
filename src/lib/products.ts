@@ -79,3 +79,42 @@ function sortPriority(product: Product): number {
   if (product.category === "Acessórios") return 1;
   return 0;
 }
+
+// Destaques manuais da vitrine: cada par troca, no lugar exato do produto
+// substituído, um item de ticket mais alto / menos repetido na listagem.
+export const SHOWCASE_SUBSTITUTIONS: Array<[substituido: string, destaque: string]> = [
+  [
+    "calca-jeans-infantil-baggy-coracoes-denim-escuro-carter-s",
+    "kit-body-bebe-5-pecas-trenzinhos-multicor-carter-s",
+  ],
+  [
+    "calca-jeans-infantil-reta-com-cos-elastico-denim-escuro-carter-s",
+    "conjunto-longo-bebe-3-pecas-ovelinha-off-white-carter-s",
+  ],
+  [
+    "calca-infantil-relaxed-em-plush-off-white-carter-s",
+    "conjunto-longo-bebe-3-pecas-em-sherpa-multicor-carter-s",
+  ],
+  [
+    "calca-de-moletom-infantil-jogger-bege-carter-s",
+    "conjunto-longo-bebe-3-pecas-atoalhados-patinho-off-white-carter-s",
+  ],
+  [
+    "calca-de-moletom-infantil-jogger-lilas-carter-s",
+    "conjunto-longo-bebe-3-pecas-atoalhados-ratinho-rosa-carter-s",
+  ],
+];
+
+export function applyShowcaseSubstitutions(list: Product[]): Product[] {
+  const porSlug = new Map(list.map((p) => [p.slug, p]));
+  const destaqueSlugs = new Set(SHOWCASE_SUBSTITUTIONS.map(([, destaque]) => destaque));
+  const result = list.filter((p) => !destaqueSlugs.has(p.slug));
+  for (const [substituido, destaque] of SHOWCASE_SUBSTITUTIONS) {
+    const indice = result.findIndex((p) => p.slug === substituido);
+    const produto = porSlug.get(destaque);
+    if (indice !== -1 && produto) {
+      result[indice] = produto;
+    }
+  }
+  return result;
+}
