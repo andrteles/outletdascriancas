@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 export type PixelSettingsRow = {
   id: number;
@@ -16,43 +16,27 @@ export type ZedyWebhookEventRow = {
   processed_at: string;
 };
 
-export type Database = {
-  public: {
-    Tables: {
-      pixel_settings: {
-        Row: PixelSettingsRow;
-        Insert: Partial<PixelSettingsRow>;
-        Update: Partial<PixelSettingsRow>;
-        Relationships: [];
+/** Cliente com a service_role key: só deve ser usado dentro de server functions,
+ * nunca importado em código que roda no navegador. As tabelas pixel_settings e
+ * zedy_webhook_events têm RLS sem políticas — só este cliente as alcança. */
+export function getSupabaseAdmin() {
+  // O cliente gerado usa os tipos de src/integrations/supabase/types.ts; as tabelas
+  // desta loja ainda não estão nos tipos gerados, então fazemos o cast aqui.
+  return supabaseAdmin as unknown as {
+    from(table: "pixel_settings"): {
+      select(columns: string): {
+        eq(column: string, value: unknown): {
+          single(): Promise<{ data: PixelSettingsRow | null; error: { message: string } | null }>;
+        };
       };
-      zedy_webhook_events: {
-        Row: ZedyWebhookEventRow;
-        Insert: Partial<ZedyWebhookEventRow> &
-          Pick<ZedyWebhookEventRow, "order_id" | "event_type" | "payload">;
-        Update: Partial<ZedyWebhookEventRow>;
-        Relationships: [];
+      update(values: Partial<PixelSettingsRow>): {
+        eq(column: string, value: unknown): Promise<{ error: { message: string } | null }>;
       };
     };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
+    from(table: "zedy_webhook_events"): {
+      insert(
+        values: Pick<ZedyWebhookEventRow, "order_id" | "event_type" | "payload">,
+      ): Promise<{ error: { code?: string; message: string } | null }>;
+    };
   };
-};
-
-let client: ReturnType<typeof createClient<Database>> | null = null;
-
-/** Cliente Supabase com a service_role key: só deve ser usado dentro de server functions,
- * nunca importado em código que roda no navegador. */
-export function getSupabaseAdmin() {
-  if (client) return client;
-
-  const url = process.env["SUPABASE_URL"];
-  const serviceRoleKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
-  if (!url || !serviceRoleKey) {
-    throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY não configurados");
-  }
-
-  client = createClient<Database>(url, serviceRoleKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  return client;
 }
