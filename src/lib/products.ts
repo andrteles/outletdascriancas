@@ -14,6 +14,8 @@ export interface Product {
   category: string;
   ageGroup: "Bebê" | "Infantil";
   tags: string[];
+  /** Tamanho -> variantId da Zedy, preenchido por scripts/sync-zedy-products.mjs */
+  zedyVariantIds?: Partial<Record<string, string>>;
 }
 
 export const products = raw as Product[];

@@ -4,13 +4,7 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { ProductCard } from "@/components/store/ProductCard";
-import {
-  ageGroups,
-  applyShowcaseSubstitutions,
-  categories,
-  filterProducts,
-  type SortOption,
-} from "@/lib/products";
+import { ageGroups, categories, filterProducts, type SortOption } from "@/lib/products";
 import { getPageNumbers } from "@/lib/pagination";
 import { cn } from "@/lib/utils";
 
@@ -49,12 +43,7 @@ function ProductsPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const [filtersOpen, setFiltersOpen] = useState(false);
   const faixaAtiva = search.faixa;
-  const semFiltros = !faixaAtiva && !search.categoria && !search.busca;
-  const resultsBase = filterProducts({ ...search, faixa: faixaAtiva });
-  const results =
-    semFiltros && (!search.ordenar || search.ordenar === "relevancia")
-      ? applyShowcaseSubstitutions(resultsBase)
-      : resultsBase;
+  const results = filterProducts({ ...search, faixa: faixaAtiva });
 
   const totalPages = Math.max(1, Math.ceil(results.length / PRODUCTS_PER_PAGE));
   const currentPage = Math.min(search.pagina ?? 1, totalPages);

@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { Loader2, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { formatInstallmentsComJuros, formatPixPrice, formatPrice } from "@/lib/format";
+import { createZedyCheckout } from "@/lib/zedy";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
@@ -15,11 +17,21 @@ export const Route = createFileRoute("/carrinho")({
 
 function CartPage() {
   const { items, updateQuantity, removeItem, subtotal } = useCart();
+  const [checkingOut, setCheckingOut] = useState(false);
 
-  function handleCheckout() {
-    toast.info("Checkout em breve", {
-      description: "A integração de pagamento ainda não está disponível nesta loja.",
+  async function handleCheckout() {
+    setCheckingOut(true);
+    const result = await createZedyCheckout({
+      data: {
+        items: items.map((item) => ({ slug: item.slug, size: item.size, quantity: item.quantity })),
+      },
     });
+    setCheckingOut(false);
+    if (!result.ok) {
+      toast.error("Não foi possível iniciar o checkout. Tente novamente.");
+      return;
+    }
+    window.location.href = result.checkoutUrl;
   }
 
   if (items.length === 0) {
@@ -119,10 +131,11 @@ function CartPage() {
           </div>
           <Button
             size="lg"
+            disabled={checkingOut}
             className="mt-5 w-full bg-[#3BAE8A] font-bold text-white uppercase hover:bg-[#3BAE8A]/90"
             onClick={handleCheckout}
           >
-            Finalizar compra
+            {checkingOut ? <Loader2 className="size-5 animate-spin" /> : "Finalizar compra"}
           </Button>
           <Button
             asChild

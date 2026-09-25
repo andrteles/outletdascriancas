@@ -8,7 +8,7 @@ export interface PublicTrackingConfig {
   utmifyHtml: string | null;
 }
 
-async function fetchPixelRow() {
+export async function fetchPixelRow() {
   const { data, error } = await getSupabaseAdmin()
     .from("pixel_settings")
     .select("utmify_html, tiktok_pixel_id, tiktok_access_token")

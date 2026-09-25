@@ -18,6 +18,7 @@ import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-
 import { Route as TrocasEDevolucoesRouteImport } from './routes/trocas-e-devolucoes'
 import { Route as ProdutosIndexRouteImport } from './routes/produtos/index'
 import { Route as ProdutosSlugRouteImport } from './routes/produtos/$slug'
+import { Route as ApiWebhooksZedyRouteImport } from './routes/api/webhooks/zedy'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,11 @@ const ProdutosSlugRoute = ProdutosSlugRouteImport.update({
   path: '/produtos/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiWebhooksZedyRoute = ApiWebhooksZedyRouteImport.update({
+  id: '/api/webhooks/zedy',
+  path: '/api/webhooks/zedy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos/': typeof ProdutosIndexRoute
+  '/api/webhooks/zedy': typeof ApiWebhooksZedyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos': typeof ProdutosIndexRoute
+  '/api/webhooks/zedy': typeof ApiWebhooksZedyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos/': typeof ProdutosIndexRoute
+  '/api/webhooks/zedy': typeof ApiWebhooksZedyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/trocas-e-devolucoes'
     | '/produtos/$slug'
     | '/produtos/'
+    | '/api/webhooks/zedy'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/trocas-e-devolucoes'
     | '/produtos/$slug'
     | '/produtos'
+    | '/api/webhooks/zedy'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/trocas-e-devolucoes'
     | '/produtos/$slug'
     | '/produtos/'
+    | '/api/webhooks/zedy'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   TrocasEDevolucoesRoute: typeof TrocasEDevolucoesRoute
   ProdutosSlugRoute: typeof ProdutosSlugRoute
   ProdutosIndexRoute: typeof ProdutosIndexRoute
+  ApiWebhooksZedyRoute: typeof ApiWebhooksZedyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProdutosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/webhooks/zedy': {
+      id: '/api/webhooks/zedy'
+      path: '/api/webhooks/zedy'
+      fullPath: '/api/webhooks/zedy'
+      preLoaderRoute: typeof ApiWebhooksZedyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   TrocasEDevolucoesRoute: TrocasEDevolucoesRoute,
   ProdutosSlugRoute: ProdutosSlugRoute,
   ProdutosIndexRoute: ProdutosIndexRoute,
+  ApiWebhooksZedyRoute: ApiWebhooksZedyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

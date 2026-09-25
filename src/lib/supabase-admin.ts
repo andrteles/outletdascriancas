@@ -9,6 +9,13 @@ export type PixelSettingsRow = {
   updated_at: string;
 };
 
+export type ZedyWebhookEventRow = {
+  order_id: string;
+  event_type: string;
+  payload: unknown;
+  processed_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -16,6 +23,13 @@ export type Database = {
         Row: PixelSettingsRow;
         Insert: Partial<PixelSettingsRow>;
         Update: Partial<PixelSettingsRow>;
+        Relationships: [];
+      };
+      zedy_webhook_events: {
+        Row: ZedyWebhookEventRow;
+        Insert: Partial<ZedyWebhookEventRow> &
+          Pick<ZedyWebhookEventRow, "order_id" | "event_type" | "payload">;
+        Update: Partial<ZedyWebhookEventRow>;
         Relationships: [];
       };
     };
