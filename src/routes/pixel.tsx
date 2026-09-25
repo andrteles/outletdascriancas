@@ -93,10 +93,6 @@ function SetupPasswordForm({ onDone }: { onDone: () => void }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        Ainda não existe uma senha para esta área. Defina uma para proteger o acesso às
-        configurações de rastreamento.
-      </p>
       <div className="flex flex-col gap-1.5">
         <label htmlFor="password" className="text-sm font-medium text-foreground">
           Nova senha
@@ -213,7 +209,6 @@ function SettingsForm({
           <textarea
             id="utmify"
             rows={6}
-            placeholder="Cole aqui o código de instalação copiado do painel da Utmify"
             value={utmifyHtml}
             onChange={(event) => setUtmifyHtml(event.target.value)}
             className={`resize-none font-mono text-xs ${inputClass}`}
@@ -227,7 +222,6 @@ function SettingsForm({
           <input
             id="tiktokPixelId"
             type="text"
-            placeholder="Ex: C9XXXXXXXXXXXXXXXXXX"
             value={tiktokPixelId}
             onChange={(event) => setTiktokPixelId(event.target.value)}
             className={inputClass}
@@ -242,7 +236,6 @@ function SettingsForm({
             <input
               id="tiktokAccessToken"
               type={showToken ? "text" : "password"}
-              placeholder="Gerado em Events Manager > seu pixel > Configurações"
               value={tiktokAccessToken}
               onChange={(event) => setTiktokAccessToken(event.target.value)}
               className={`flex-1 ${inputClass}`}
@@ -255,10 +248,6 @@ function SettingsForm({
               {showToken ? "Ocultar" : "Mostrar"}
             </button>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Usado só no servidor para reforçar o AddToCart via API. PageView e AddToCart via
-            navegador já funcionam só com o Pixel ID.
-          </p>
         </div>
 
         <Button type="submit" disabled={saving} className="w-full font-bold text-white sm:w-fit">
