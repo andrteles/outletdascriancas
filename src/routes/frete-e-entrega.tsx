@@ -31,7 +31,7 @@ function FreteEEntregaPage() {
       </h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
         O prazo estimado de entrega varia conforme a região e é informado no momento da compra,
-        junto ao valor do frete. Em geral, os pedidos são entregues entre 3 e 15 dias úteis após a
+        junto ao valor do frete. Em geral, os pedidos são entregues entre 2 e 10 dias úteis após a
         confirmação do pagamento.
       </p>
 
