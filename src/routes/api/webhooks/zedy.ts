@@ -22,7 +22,11 @@ export const Route = createFileRoute("/api/webhooks/zedy")({
 
         const { error: insertError } = await getSupabaseAdmin()
           .from("zedy_webhook_events")
-          .insert({ order_id: payload.orderId, event_type: payload.eventType, payload });
+.insert({
+            order_id: payload.orderId,
+            event_type: payload.eventType,
+            payload: payload as unknown as import("@/integrations/supabase/types").Json,
+          });
 
         // Código 23505 = violação de chave primária: já processamos esse evento (reenvio da Zedy).
         const alreadyProcessed = insertError?.code === "23505";
