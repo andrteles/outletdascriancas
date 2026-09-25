@@ -9,13 +9,20 @@ export interface PublicTrackingConfig {
 }
 
 export async function fetchPixelRow() {
-  const { data, error } = await getSupabaseAdmin()
-    .from("pixel_settings")
-    .select("utmify_html, tiktok_pixel_id, tiktok_access_token")
-    .eq("id", 1)
-    .single();
-  if (error || !data) return null;
-  return data;
+  // Rastreamento é opcional: se o banco não estiver configurado ou falhar,
+  // a loja continua funcionando sem pixel em vez de quebrar a página.
+  try {
+    const { data, error } = await getSupabaseAdmin()
+      .from("pixel_settings")
+      .select("utmify_html, tiktok_pixel_id, tiktok_access_token")
+      .eq("id", 1)
+      .single();
+    if (error || !data) return null;
+    return data;
+  } catch (err) {
+    console.warn("[tracking] configuração do pixel indisponível:", (err as Error).message);
+    return null;
+  }
 }
 
 export const getPublicTrackingConfig = createServerFn({ method: "GET" }).handler(
