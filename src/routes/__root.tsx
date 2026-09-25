@@ -16,6 +16,7 @@ import { CartDrawer } from "@/components/store/CartDrawer";
 import { Header } from "@/components/store/Header";
 import { Footer } from "@/components/store/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { TrackingScripts } from "@/components/store/TrackingScripts";
 
 function NotFoundComponent() {
   return (
@@ -147,6 +148,7 @@ function RootComponent() {
         </div>
         <CartDrawer />
         <Toaster />
+        <TrackingScripts />
       </CartProvider>
     </QueryClientProvider>
   );

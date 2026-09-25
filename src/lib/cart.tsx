@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import type { Product } from "@/lib/products";
+import { trackTikTokEvent } from "@/lib/tracking";
 
 export interface CartItem {
   slug: string;
@@ -86,6 +87,33 @@ export function CartProvider({ children }: { children: ReactNode }) {
       ];
     });
     setIsOpen(true);
+
+    const eventId = crypto.randomUUID();
+    const value = product.price * quantity;
+    window.ttq?.track(
+      "AddToCart",
+      {
+        content_id: product.slug,
+        content_name: product.title,
+        quantity,
+        price: product.price,
+        value,
+        currency: "BRL",
+      },
+      { event_id: eventId },
+    );
+    trackTikTokEvent({
+      data: {
+        event: "AddToCart",
+        eventId,
+        url: window.location.href,
+        currency: "BRL",
+        value,
+        contents: [
+          { contentId: product.slug, contentName: product.title, quantity, price: product.price },
+        ],
+      },
+    }).catch(() => {});
   }, []);
 
   const removeItem = useCallback((slug: string, size: string) => {

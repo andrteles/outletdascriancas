@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as FaleConoscoRouteImport } from './routes/fale-conosco'
 import { Route as FreteEEntregaRouteImport } from './routes/frete-e-entrega'
+import { Route as PixelRouteImport } from './routes/pixel'
 import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
 import { Route as TrocasEDevolucoesRouteImport } from './routes/trocas-e-devolucoes'
 import { Route as ProdutosIndexRouteImport } from './routes/produtos/index'
@@ -36,6 +37,11 @@ const FaleConoscoRoute = FaleConoscoRouteImport.update({
 const FreteEEntregaRoute = FreteEEntregaRouteImport.update({
   id: '/frete-e-entrega',
   path: '/frete-e-entrega',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PixelRoute = PixelRouteImport.update({
+  id: '/pixel',
+  path: '/pixel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PoliticaDePrivacidadeRoute = PoliticaDePrivacidadeRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/carrinho': typeof CarrinhoRoute
   '/fale-conosco': typeof FaleConoscoRoute
   '/frete-e-entrega': typeof FreteEEntregaRoute
+  '/pixel': typeof PixelRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/carrinho': typeof CarrinhoRoute
   '/fale-conosco': typeof FaleConoscoRoute
   '/frete-e-entrega': typeof FreteEEntregaRoute
+  '/pixel': typeof PixelRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/carrinho': typeof CarrinhoRoute
   '/fale-conosco': typeof FaleConoscoRoute
   '/frete-e-entrega': typeof FreteEEntregaRoute
+  '/pixel': typeof PixelRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/trocas-e-devolucoes': typeof TrocasEDevolucoesRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/carrinho'
     | '/fale-conosco'
     | '/frete-e-entrega'
+    | '/pixel'
     | '/politica-de-privacidade'
     | '/trocas-e-devolucoes'
     | '/produtos/$slug'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/carrinho'
     | '/fale-conosco'
     | '/frete-e-entrega'
+    | '/pixel'
     | '/politica-de-privacidade'
     | '/trocas-e-devolucoes'
     | '/produtos/$slug'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/carrinho'
     | '/fale-conosco'
     | '/frete-e-entrega'
+    | '/pixel'
     | '/politica-de-privacidade'
     | '/trocas-e-devolucoes'
     | '/produtos/$slug'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   CarrinhoRoute: typeof CarrinhoRoute
   FaleConoscoRoute: typeof FaleConoscoRoute
   FreteEEntregaRoute: typeof FreteEEntregaRoute
+  PixelRoute: typeof PixelRoute
   PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
   TrocasEDevolucoesRoute: typeof TrocasEDevolucoesRoute
   ProdutosSlugRoute: typeof ProdutosSlugRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/frete-e-entrega'
       fullPath: '/frete-e-entrega'
       preLoaderRoute: typeof FreteEEntregaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pixel': {
+      id: '/pixel'
+      path: '/pixel'
+      fullPath: '/pixel'
+      preLoaderRoute: typeof PixelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/politica-de-privacidade': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   CarrinhoRoute: CarrinhoRoute,
   FaleConoscoRoute: FaleConoscoRoute,
   FreteEEntregaRoute: FreteEEntregaRoute,
+  PixelRoute: PixelRoute,
   PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
   TrocasEDevolucoesRoute: TrocasEDevolucoesRoute,
   ProdutosSlugRoute: ProdutosSlugRoute,
