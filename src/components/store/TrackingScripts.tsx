@@ -14,6 +14,13 @@ declare global {
         options?: { event_id?: string },
       ) => void;
     };
+    /** Pixel da Meta — vem embutido no script que a Utmify fornece, não é injetado por nós. */
+    fbq?: (
+      command: "track",
+      event: string,
+      data?: Record<string, unknown>,
+      options?: { eventID?: string },
+    ) => void;
   }
 }
 

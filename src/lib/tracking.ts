@@ -44,13 +44,71 @@ interface TikTokEventContent {
   price?: number;
 }
 
+type TikTokBrowserEvent = "ViewContent" | "AddToCart" | "InitiateCheckout";
+
 interface TrackTikTokEventInput {
-  event: "AddToCart";
+  event: TikTokBrowserEvent;
   eventId: string;
   url: string;
   currency?: string;
   value?: number;
   contents?: TikTokEventContent[];
+}
+
+/** Dispara o evento no pixel do navegador (window.ttq) usando o mesmo event_id passado pro
+ * trackTikTokEvent (CAPI), permitindo o TikTok deduplicar as duas chamadas do mesmo evento. */
+export function trackPixelEvent(
+  event: TikTokBrowserEvent,
+  eventId: string,
+  params: { currency?: string; value?: number; contents?: TikTokEventContent[] },
+) {
+  if (typeof window === "undefined") return;
+  window.ttq?.track(
+    event,
+    {
+      currency: params.currency ?? "BRL",
+      value: params.value,
+      contents: params.contents?.map((item) => ({
+        content_id: item.contentId,
+        content_name: item.contentName,
+        quantity: item.quantity ?? 1,
+        price: item.price,
+      })),
+    },
+    { event_id: eventId },
+  );
+}
+
+type MetaBrowserEvent = "ViewContent" | "AddToCart" | "InitiateCheckout";
+
+/** Dispara o evento no Pixel da Meta (window.fbq) que já vem embutido no script colado em
+ * "Pixel da Utmify". Um evento explícito como este sempre tem prioridade sobre a detecção
+ * automática de cliques do Meta (que erra o nome do evento, ex: "SubscribedButtonClick"). */
+export function trackMetaPixelEvent(
+  event: MetaBrowserEvent,
+  eventId: string,
+  params: {
+    currency?: string;
+    value?: number;
+    contentIds: string[];
+    contentName?: string;
+    numItems?: number;
+  },
+) {
+  if (typeof window === "undefined") return;
+  window.fbq?.(
+    "track",
+    event,
+    {
+      content_type: "product",
+      content_ids: params.contentIds,
+      content_name: params.contentName,
+      currency: params.currency ?? "BRL",
+      value: params.value,
+      ...(params.numItems !== undefined ? { num_items: params.numItems } : {}),
+    },
+    { eventID: eventId },
+  );
 }
 
 export const trackTikTokEvent = createServerFn({ method: "POST" })

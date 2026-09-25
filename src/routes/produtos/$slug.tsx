@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight, ShieldCheck, Truck } from "lucide-react";
 
 import { ProductCard } from "@/components/store/ProductCard";
@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { formatInstallmentsComJuros, formatPixPrice, formatPrice } from "@/lib/format";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/lib/products";
+import { trackMetaPixelEvent, trackPixelEvent, trackTikTokEvent } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 
 function metaDescription(product: Product): string {
@@ -48,12 +49,55 @@ function ProductPage() {
   const [sizeError, setSizeError] = useState(false);
   const { addItem } = useCart();
 
+  useEffect(() => {
+    const eventId = `view-${product.slug}-${Date.now()}`;
+    trackPixelEvent("ViewContent", eventId, {
+      value: product.price,
+      contents: [{ contentId: product.slug, contentName: product.title, price: product.price }],
+    });
+    trackMetaPixelEvent("ViewContent", eventId, {
+      value: product.price,
+      contentIds: [product.slug],
+      contentName: product.title,
+    });
+    trackTikTokEvent({
+      data: {
+        event: "ViewContent",
+        eventId,
+        url: window.location.href,
+        value: product.price,
+        contents: [{ contentId: product.slug, contentName: product.title, price: product.price }],
+      },
+    }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug]);
+
   function handleAddToCart() {
     if (!selectedSize) {
       setSizeError(true);
       return;
     }
     addItem(product.slug, selectedSize, 1);
+
+    const eventId = `add-${product.slug}-${selectedSize}-${Date.now()}`;
+    trackPixelEvent("AddToCart", eventId, {
+      value: product.price,
+      contents: [{ contentId: product.slug, contentName: product.title, price: product.price }],
+    });
+    trackMetaPixelEvent("AddToCart", eventId, {
+      value: product.price,
+      contentIds: [product.slug],
+      contentName: product.title,
+    });
+    trackTikTokEvent({
+      data: {
+        event: "AddToCart",
+        eventId,
+        url: window.location.href,
+        value: product.price,
+        contents: [{ contentId: product.slug, contentName: product.title, price: product.price }],
+      },
+    }).catch(() => {});
   }
 
   return (

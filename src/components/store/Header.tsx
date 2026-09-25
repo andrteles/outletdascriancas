@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBag, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useCart } from "@/lib/cart";
 import { categories } from "@/lib/products";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { label: "Promoções", search: { ordenar: "maior-desconto" as const } },
@@ -11,6 +12,40 @@ const navLinks = [
   { label: "Infantil", search: { faixa: "Infantil" } },
   { label: "Kits e Conjuntos", search: { categoria: "Kits" } },
 ];
+
+const announcements = [
+  "Frete Grátis para todo Brasil",
+  "Garantia de troca em 30 dias, direto com a loja",
+];
+
+function AnnouncementBar() {
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex((current) => (current + 1) % announcements.length);
+        setVisible(true);
+      }, 300);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-primary py-2.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
+      <span
+        className={cn(
+          "inline-block transition-all duration-300 ease-in-out",
+          visible ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0",
+        )}
+      >
+        {announcements[index]}
+      </span>
+    </div>
+  );
+}
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,9 +61,7 @@ export function Header() {
 
   return (
     <>
-      <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
-        Frete Grátis para todo Brasil
-      </div>
+      <AnnouncementBar />
 
       <header className="border-b border-border bg-background">
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-2.5 sm:px-6">

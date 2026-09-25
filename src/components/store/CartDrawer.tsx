@@ -8,15 +8,18 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
 import { getProductBySlug } from "@/lib/products";
+import { trackMetaPixelEvent, trackPixelEvent, trackTikTokEvent } from "@/lib/tracking";
 import { createZedyCheckout } from "@/lib/zedy";
 
 export function CartDrawer() {
-  const { items, isOpen, closeCart, removeItem, updateQuantity, totalPrice } = useCart();
+  const { items, isOpen, closeCart, removeItem, updateQuantity, totalPrice, totalItems } =
+    useCart();
   const [checkingOut, setCheckingOut] = useState(false);
 
   async function handleCheckout() {
     if (items.length === 0) return;
     setCheckingOut(true);
+
     const result = await createZedyCheckout({
       data: {
         items: items.map((item) => ({
@@ -31,6 +34,37 @@ export function CartDrawer() {
       toast.error("Não foi possível iniciar o checkout. Tente novamente.");
       return;
     }
+
+    const eventId = `checkout-${Date.now()}`;
+    const contents = items.flatMap((item) => {
+      const product = getProductBySlug(item.slug);
+      return product
+        ? [
+            {
+              contentId: product.slug,
+              contentName: product.title,
+              quantity: item.quantity,
+              price: product.price,
+            },
+          ]
+        : [];
+    });
+    trackPixelEvent("InitiateCheckout", eventId, { value: totalPrice, contents });
+    trackMetaPixelEvent("InitiateCheckout", eventId, {
+      value: totalPrice,
+      contentIds: items.map((item) => item.slug),
+      numItems: totalItems,
+    });
+    trackTikTokEvent({
+      data: {
+        event: "InitiateCheckout",
+        eventId,
+        url: window.location.href,
+        value: totalPrice,
+        contents,
+      },
+    }).catch(() => {});
+
     window.location.href = result.checkoutUrl;
   }
 
@@ -124,7 +158,7 @@ export function CartDrawer() {
               })}
             </ul>
 
-            <div className="border-t border-border px-5 py-4">
+            <div className="border-t border-border px-5 pt-4 pb-10">
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Subtotal</span>
                 <span className="text-lg font-extrabold">{formatPrice(totalPrice)}</span>
