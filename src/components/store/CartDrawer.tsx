@@ -26,11 +26,27 @@ export function CartDrawer() {
   // fica errada. Mantendo o elemento sempre presente, o layout já está
   // resolvido contra um viewport estável antes de qualquer abertura.
 
-  // Trava a posição do body enquanto a gaveta está aberta (não só
+  // Só destrava o scroll do body depois que a animação de fechar termina
+  // (mesma duração do duration-300 usado no fechamento), não no instante do
+  // clique. Destravar na hora expõe o reajuste da página (e da barra de
+  // endereço do Safari) enquanto a gaveta ainda está visível deslizando pra
+  // fora — foi isso que causava o vão reaparecer sempre que a gaveta ganhava
+  // efeito de saída.
+  const [scrollLocked, setScrollLocked] = useState(false);
+  useEffect(() => {
+    if (isOpen) {
+      setScrollLocked(true);
+      return;
+    }
+    const timeout = setTimeout(() => setScrollLocked(false), 300);
+    return () => clearTimeout(timeout);
+  }, [isOpen]);
+
+  // Trava a posição do body enquanto a gaveta está aberta ou fechando (não só
   // overflow:hidden), pra evitar que o fundo da página "roube" scroll por
   // baixo da gaveta enquanto a barra de endereço do iOS anima.
   useEffect(() => {
-    if (!isOpen) return;
+    if (!scrollLocked) return;
     const { body } = document;
     const scrollY = window.scrollY;
     const original = {
@@ -53,7 +69,7 @@ export function CartDrawer() {
       body.style.width = original.width;
       window.scrollTo(0, scrollY);
     };
-  }, [isOpen]);
+  }, [scrollLocked]);
 
   // Substitui o focus trap + Escape que o Radix Dialog dava de graça, já que
   // a gaveta deixou de usar o Dialog do Radix (forceMount quebrava o
