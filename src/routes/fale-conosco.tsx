@@ -82,7 +82,7 @@ function FaleConoscoPage() {
         <Button
           type="submit"
           size="lg"
-          className="mt-2 w-full bg-black font-bold text-white uppercase hover:bg-black/90 sm:w-fit"
+          className="mt-2 w-full bg-black font-bold text-white hover:bg-black/90 sm:w-fit"
         >
           Enviar mensagem
         </Button>
