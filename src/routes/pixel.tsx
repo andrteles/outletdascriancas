@@ -204,7 +204,7 @@ function SettingsForm({
       <form onSubmit={handleSave} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="utmify" className="text-sm font-medium text-foreground">
-            Código da Utmify
+            Pixel da Utmify
           </label>
           <textarea
             id="utmify"
