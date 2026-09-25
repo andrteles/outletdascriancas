@@ -24,7 +24,7 @@ export function Header() {
 
   return (
     <>
-      <div className="bg-primary py-1.5 text-center text-[11px] font-bold tracking-wide text-white uppercase">
+      <div className="bg-primary px-4 py-3 text-center text-xs font-bold tracking-wide text-white uppercase">
         Frete Grátis para todo Brasil
       </div>
 
