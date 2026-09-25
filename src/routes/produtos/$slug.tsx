@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronRight, ShieldCheck, Truck } from "lucide-react";
+import { ChevronRight, Minus, Plus, ShieldCheck, Truck } from "lucide-react";
 
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -47,6 +47,7 @@ function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [sizeError, setSizeError] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
 
   useEffect(() => {
@@ -77,27 +78,43 @@ function ProductPage() {
       setSizeError(true);
       return;
     }
-    addItem(product.slug, selectedSize, 1);
+    addItem(product.slug, selectedSize, quantity);
 
     const eventId = `add-${product.slug}-${selectedSize}-${Date.now()}`;
     trackPixelEvent("AddToCart", eventId, {
-      value: product.price,
-      contents: [{ contentId: product.slug, contentName: product.title, price: product.price }],
+      value: product.price * quantity,
+      contents: [
+        {
+          contentId: product.slug,
+          contentName: product.title,
+          quantity,
+          price: product.price,
+        },
+      ],
     });
     trackMetaPixelEvent("AddToCart", eventId, {
-      value: product.price,
+      value: product.price * quantity,
       contentIds: [product.slug],
       contentName: product.title,
+      numItems: quantity,
     });
     trackTikTokEvent({
       data: {
         event: "AddToCart",
         eventId,
         url: window.location.href,
-        value: product.price,
-        contents: [{ contentId: product.slug, contentName: product.title, price: product.price }],
+        value: product.price * quantity,
+        contents: [
+          {
+            contentId: product.slug,
+            contentName: product.title,
+            quantity,
+            price: product.price,
+          },
+        ],
       },
     }).catch(() => {});
+    setQuantity(1);
   }
 
   return (
@@ -199,9 +216,32 @@ function ProductPage() {
             </div>
           </div>
 
+          <div className="mt-6">
+            <p className="mb-2 text-sm font-semibold">Quantidade</p>
+            <div className="inline-flex items-center rounded-md border border-input">
+              <button
+                type="button"
+                aria-label="Diminuir quantidade"
+                onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                className="grid size-9 place-items-center hover:bg-secondary"
+              >
+                <Minus className="size-3.5" />
+              </button>
+              <span className="w-8 text-center text-sm font-medium">{quantity}</span>
+              <button
+                type="button"
+                aria-label="Aumentar quantidade"
+                onClick={() => setQuantity((current) => current + 1)}
+                className="grid size-9 place-items-center hover:bg-secondary"
+              >
+                <Plus className="size-3.5" />
+              </button>
+            </div>
+          </div>
+
           <Button
             size="lg"
-            className="mt-6 w-full bg-[#3BAE8A] text-white font-bold uppercase hover:bg-[#3BAE8A]/90"
+            className="mt-6 h-14 w-full bg-[#3BAE8A] text-white font-bold uppercase hover:bg-[#3BAE8A]/90"
             onClick={handleAddToCart}
           >
             Adicionar à sacola
