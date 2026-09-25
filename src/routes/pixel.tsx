@@ -202,8 +202,8 @@ function SettingsForm({
     let result: Awaited<ReturnType<typeof savePixelSettings>>;
     try {
       result = await savePixelSettings({
-      data: { utmifyHtml, tiktokPixelId, tiktokAccessToken },
-    });
+        data: { utmifyHtml, tiktokPixelId, tiktokAccessToken },
+      });
     } catch (error) {
       console.error(error);
       toast.error("Erro de conexão com o servidor. Tente novamente.");

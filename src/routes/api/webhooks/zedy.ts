@@ -23,13 +23,11 @@ export const Route = createFileRoute("/api/webhooks/zedy")({
         const admin = getSupabaseAdmin();
         if (!admin) return new Response("Banco não configurado", { status: 500 });
 
-        const { error: insertError } = await admin
-          .from("zedy_webhook_events")
-.insert({
-            order_id: payload.orderId,
-            event_type: payload.eventType,
-            payload: payload as unknown as import("@/integrations/supabase/types").Json,
-          });
+        const { error: insertError } = await admin.from("zedy_webhook_events").insert({
+          order_id: payload.orderId,
+          event_type: payload.eventType,
+          payload: payload as unknown as import("@/integrations/supabase/types").Json,
+        });
 
         // Código 23505 = violação de chave primária: já processamos esse evento (reenvio da Zedy).
         const alreadyProcessed = insertError?.code === "23505";
