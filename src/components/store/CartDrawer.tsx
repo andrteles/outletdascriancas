@@ -146,7 +146,7 @@ export function CartDrawer() {
         aria-hidden="true"
         onClick={closeCart}
         className={cn(
-          "fixed inset-0 z-50 bg-black/80 transition-[opacity,visibility] ease-in-out",
+          "fixed inset-0 z-50 bg-black/80 transition-opacity ease-in-out",
           isOpen ? "duration-500 opacity-100" : "invisible duration-300 opacity-0",
         )}
       />
@@ -155,14 +155,8 @@ export function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Sua sacola"
-        // Sem transform-gpu de propósito: forçar uma camada de composição de
-        // GPU que fica viva e pintando durante os 300ms do fechamento parece
-        // ser o que expõe o vão no Safari do iOS (a barra de endereço pode
-        // se reajustar enquanto essa camada ainda existe). Sem essa camada
-        // dedicada, o navegador não mantém esse estado "preso" durante a
-        // transição.
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-full flex-col gap-0 bg-background shadow-lg transition-[translate,visibility] ease-in-out sm:max-w-md",
+          "fixed inset-y-0 right-0 z-50 flex w-full transform-gpu flex-col gap-0 bg-background shadow-lg transition-transform ease-in-out sm:max-w-md",
           isOpen ? "duration-500 translate-x-0" : "invisible duration-300 translate-x-full",
         )}
       >
