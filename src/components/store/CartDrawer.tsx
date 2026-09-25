@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Loader2, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
+import { Loader2, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
 import { getProductBySlug } from "@/lib/products";
@@ -33,30 +34,14 @@ export function CartDrawer() {
     window.location.href = result.checkoutUrl;
   }
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50">
-      <button
-        type="button"
-        aria-label="Fechar sacola"
-        onClick={closeCart}
-        className="absolute inset-0 bg-foreground/40"
-      />
-      <aside className="absolute top-0 right-0 flex h-full w-full max-w-md flex-col bg-background shadow-xl">
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <h2 className="flex items-center gap-2 text-base font-extrabold font-display">
+    <Sheet open={isOpen} onOpenChange={(open) => (open ? undefined : closeCart())}>
+      <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
+        <SheetHeader className="border-b border-border px-5 py-4">
+          <SheetTitle className="flex items-center gap-2 text-base font-extrabold font-display">
             <ShoppingBag className="size-5" /> Sua sacola
-          </h2>
-          <button
-            type="button"
-            aria-label="Fechar"
-            onClick={closeCart}
-            className="grid size-9 place-items-center rounded-full hover:bg-secondary"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
+          </SheetTitle>
+        </SheetHeader>
 
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
@@ -165,7 +150,7 @@ export function CartDrawer() {
             </div>
           </>
         )}
-      </aside>
-    </div>
+      </SheetContent>
+    </Sheet>
   );
 }
