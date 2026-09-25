@@ -31,7 +31,7 @@ async function openSession() {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-    path: "/pixel",
+    path: "/",
     maxAge: 60 * 60 * 12,
   });
 }
@@ -70,7 +70,7 @@ export const loginPixel = createServerFn({ method: "POST" })
   });
 
 export const logoutPixel = createServerFn({ method: "POST" }).handler(async () => {
-  deleteCookie(PIXEL_SESSION_COOKIE, { path: "/pixel" });
+  deleteCookie(PIXEL_SESSION_COOKIE, { path: "/" });
 });
 
 export const getPixelSettings = createServerFn({ method: "GET" }).handler(async () => {
