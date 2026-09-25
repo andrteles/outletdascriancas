@@ -20,7 +20,10 @@ export const Route = createFileRoute("/api/webhooks/zedy")({
 
         const payload = (await request.json()) as ZedyWebhookPayload;
 
-        const { error: insertError } = await getSupabaseAdmin()
+        const admin = getSupabaseAdmin();
+        if (!admin) return new Response("Banco não configurado", { status: 500 });
+
+        const { error: insertError } = await admin
           .from("zedy_webhook_events")
 .insert({
             order_id: payload.orderId,

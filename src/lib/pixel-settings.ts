@@ -9,8 +9,14 @@ import {
   PIXEL_SESSION_COOKIE,
 } from "@/lib/pixel-session";
 
+function requireAdmin() {
+  const admin = getSupabaseAdmin();
+  if (!admin) throw new Error("Banco de rastreamento não configurado");
+  return admin;
+}
+
 async function fetchRow(): Promise<PixelSettingsRow> {
-  const { data, error } = await getSupabaseAdmin()
+  const { data, error } = await requireAdmin()
     .from("pixel_settings")
     .select("id, utmify_html, tiktok_pixel_id, tiktok_access_token, password_hash, updated_at")
     .eq("id", 1)
