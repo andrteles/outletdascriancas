@@ -148,13 +148,20 @@ export function CartDrawer() {
                 size="lg"
                 disabled={checkingOut}
                 onClick={handleCheckout}
-                className="w-full text-white font-bold uppercase"
+                className="w-full bg-[#3BAE8A] font-bold text-white uppercase hover:bg-[#3BAE8A]/90"
               >
                 {checkingOut ? <Loader2 className="size-5 animate-spin" /> : "Finalizar compra"}
               </Button>
-              <p className="mt-2 text-center text-xs text-muted-foreground">
-                Frete grátis para todo o Brasil
-              </p>
+              <Button
+                asChild
+                size="lg"
+                onClick={closeCart}
+                className="mt-2 w-full bg-black font-bold text-white uppercase hover:bg-black/90"
+              >
+                <Link to="/produtos" search={{}}>
+                  Continuar Comprando
+                </Link>
+              </Button>
             </div>
           </>
         )}

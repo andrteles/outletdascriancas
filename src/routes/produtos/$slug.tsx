@@ -1,7 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronRight, ShieldCheck, Truck } from "lucide-react";
-import { toast } from "sonner";
 
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -55,7 +54,6 @@ function ProductPage() {
       return;
     }
     addItem(product.slug, selectedSize, 1);
-    toast.success("Adicionado à sacola");
   }
 
   return (
